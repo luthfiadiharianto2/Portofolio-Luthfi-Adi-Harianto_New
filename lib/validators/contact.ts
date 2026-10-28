@@ -1,15 +1,20 @@
-import { z } from "zod";
+import * as z from "zod/mini";
 
+// Memakai zod/mini (sekitar 5 kB gzip, versi biasa sekitar 22 kB) karena skema ini ikut
+// terbundel ke browser untuk validasi form.
 // Pesan galat berupa kunci terjemahan (namespace "Validation"), bukan teks jadi,
 // supaya skema yang sama dipakai di client dan server tanpa tergantung bahasa.
+const text = (min: number, max: number, minKey: string, maxKey: string) =>
+  z
+    .string()
+    .check(z.trim(), z.minLength(min, minKey), z.maxLength(max, maxKey));
+
 export const contactSchema = z.object({
-  name: z.string().trim().min(2, "nameMin").max(60, "nameMax"),
+  name: text(2, 60, "nameMin", "nameMax"),
   email: z
     .string()
-    .trim()
-    .max(254, "emailInvalid")
-    .pipe(z.email("emailInvalid")),
-  message: z.string().trim().min(5, "messageMin").max(1000, "messageMax"),
+    .check(z.trim(), z.maxLength(254, "emailInvalid"), z.email("emailInvalid")),
+  message: text(5, 1000, "messageMin", "messageMax"),
 });
 export type ContactInput = z.infer<typeof contactSchema>;
 
@@ -28,8 +33,8 @@ export const isAllowedAvatarType = (
   type in GUESTBOOK_AVATAR_TYPES;
 
 export const guestbookSchema = z.object({
-  name: z.string().trim().min(2, "nameMin").max(60, "nameMax"),
-  message: z.string().trim().min(5, "messageMin").max(1000, "messageMax"),
+  name: text(2, 60, "nameMin", "nameMax"),
+  message: text(5, 1000, "messageMin", "messageMax"),
 });
 export type GuestbookInput = z.infer<typeof guestbookSchema>;
 

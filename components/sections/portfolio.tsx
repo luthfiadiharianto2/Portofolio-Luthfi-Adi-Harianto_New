@@ -10,6 +10,7 @@ import {
   getProjects,
 } from "@/lib/data/content";
 import { pick } from "@/lib/localized";
+import { ProjectCard } from "./project-card";
 import { ProjectsPanel } from "./projects-panel";
 
 export const Portfolio = async () => {
@@ -25,22 +26,25 @@ export const Portfolio = async () => {
 
   const projectsPanel = (
     <ProjectsPanel
-      projects={projects.map((project) => ({
+      cards={projects.map((project) => ({
         slug: project.slug,
-        title: project.title,
         category: project.category,
-        label: pick(project.label, locale),
-        tagline: pick(project.tagline, locale),
-        thumbnail: project.thumbnail,
-        technologies: project.technologies,
+        card: (
+          <ProjectCard
+            slug={project.slug}
+            title={project.title}
+            label={pick(project.label, locale)}
+            tagline={pick(project.tagline, locale)}
+            thumbnail={project.thumbnail}
+            thumbnailAlt={t("thumbnailAlt", { title: project.title })}
+            technologies={project.technologies}
+            detailsLabel={t("details")}
+          />
+        ),
       }))}
       labels={{
         filter: t("filterLabel"),
         empty: t("emptyFilter"),
-        details: t("details"),
-        thumbnailAlt: Object.fromEntries(
-          projects.map((p) => [p.slug, t("thumbnailAlt", { title: p.title })]),
-        ),
         categories: [
           { value: "all", label: t("filterAll") },
           { value: "uiux", label: t("filterUiux") },

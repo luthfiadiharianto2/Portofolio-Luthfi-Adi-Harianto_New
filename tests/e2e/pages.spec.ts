@@ -38,6 +38,8 @@ test.describe("beranda", () => {
   test("tab bisa dioperasikan dengan keyboard", async ({ page, isMobile }) => {
     test.skip(isMobile, "Navigasi keyboard diuji di desktop");
     await page.goto("/id");
+    // Tunggu hidrasi selesai sebelum menekan tombol (penanganan keyboard ada di client).
+    await page.waitForLoadState("networkidle");
     const projects = page.getByRole("tab", { name: "Projects" });
     await projects.focus();
     await page.keyboard.press("ArrowRight");

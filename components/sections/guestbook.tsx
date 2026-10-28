@@ -4,7 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ImagePlus, Send } from "lucide-react";
 import Image from "next/image";
 import { useFormatter, useTranslations } from "next-intl";
-import { useActionState, useEffect, useState, useTransition } from "react";
+import {
+  type RefObject,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import { useForm } from "react-hook-form";
 import { signGuestbook } from "@/app/actions/visitor";
 import { buttonStyles } from "@/components/ui/button-styles";
@@ -35,14 +42,32 @@ type RealtimeConfig = {
 const INITIAL: FormStatus = { status: "idle" };
 
 // Komentar yang disetujui diperbarui langsung lewat Supabase Realtime.
-// supabase-js dimuat belakangan agar tidak menambah JavaScript awal.
+// supabase-js (~60 kB gzip) baru diunduh saat buku tamu mendekati layar.
 const useLiveEntries = (
   initial: GuestbookEntry[],
   realtime: RealtimeConfig,
+  container: RefObject<HTMLElement | null>,
 ) => {
   const [entries, setEntries] = useState(initial);
+  const [near, setNear] = useState(false);
 
   useEffect(() => {
+    const element = container.current;
+    if (!element) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        setNear(true);
+        observer.disconnect();
+      },
+      { rootMargin: "600px" },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [container]);
+
+  useEffect(() => {
+    if (!near) return;
     let cleanup: (() => void) | undefined;
     let cancelled = false;
 
@@ -94,7 +119,7 @@ const useLiveEntries = (
       cancelled = true;
       cleanup?.();
     };
-  }, [realtime.url, realtime.publishableKey]);
+  }, [near, realtime.url, realtime.publishableKey]);
 
   return entries;
 };
@@ -252,12 +277,13 @@ export const Guestbook = ({
 }: GuestbookProps) => {
   const t = useTranslations("Guestbook");
   const format = useFormatter();
-  const entries = useLiveEntries(initialEntries, realtime);
+  const container = useRef<HTMLDivElement>(null);
+  const entries = useLiveEntries(initialEntries, realtime, container);
   const [sent, setSent] = useState(false);
   const [formKey, setFormKey] = useState(0);
 
   return (
-    <div className="grid gap-8 lg:grid-cols-2">
+    <div ref={container} className="grid gap-8 lg:grid-cols-2">
       <div className="rounded-card glass p-6 sm:p-8">
         <h3 className="font-heading text-xl font-semibold">{t("title")}</h3>
         <p className="mt-1 mb-6 text-sm text-muted">{t("subtitle")}</p>
