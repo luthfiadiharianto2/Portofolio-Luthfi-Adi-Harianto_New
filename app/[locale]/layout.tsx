@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Footer } from "@/components/sections/footer";
 import { Navbar } from "@/components/sections/navbar";
+import { Starfield } from "@/components/three/starfield";
 import { routing } from "@/i18n/routing";
 import { publicEnv } from "@/lib/env";
 import "../globals.css";
@@ -51,6 +52,7 @@ export default async function LocaleLayout({
           {t("skipToContent")}
         </a>
         <NextIntlClientProvider>
+          <Starfield />
           <Navbar musicUrl={publicEnv.backgroundMusicUrl} />
           <main id="konten" tabIndex={-1} className="outline-none">
             {children}

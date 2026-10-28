@@ -155,5 +155,8 @@
   "NotFound": {
     "title": "Halaman tidak ditemukan",
     "back": "Kembali ke beranda"
+  },
+  "Preloader": {
+    "loading": "Memuat aset..."
   }
 }

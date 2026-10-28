@@ -155,5 +155,8 @@
   "NotFound": {
     "title": "Page not found",
     "back": "Back to home"
+  },
+  "Preloader": {
+    "loading": "Loading assets..."
   }
 }
