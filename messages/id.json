@@ -1,0 +1,24 @@
+{
+  "Metadata": {
+    "title": "Luthfi Adi Harianto | Portofolio",
+    "description": "Portofolio Luthfi Adi Harianto, mahasiswa Informatika Telkom University Purwokerto di bidang UI/UX, frontend web dan mobile, analisis data, dan quality assurance."
+  },
+  "Common": {
+    "skipToContent": "Lewati ke konten"
+  },
+  "Nav": {
+    "home": "Home",
+    "about": "About",
+    "portfolio": "Portfolio",
+    "contact": "Contact"
+  },
+  "Hero": {
+    "name": "Luthfi Adi Harianto",
+    "ctaProjects": "Lihat Proyek",
+    "ctaContact": "Hubungi Saya"
+  },
+  "NotFound": {
+    "title": "Halaman tidak ditemukan",
+    "back": "Kembali ke beranda"
+  }
+}
