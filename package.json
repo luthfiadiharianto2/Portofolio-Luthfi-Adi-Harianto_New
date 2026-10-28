@@ -16,7 +16,7 @@
     "test:e2e": "playwright test",
     "check": "pnpm lint && pnpm typecheck && pnpm format:check && pnpm test && pnpm build",
     "db:seed:generate": "node supabase/seed/generate.ts",
-    "db:types": "node supabase/types/generate.ts && prettier --write lib/supabase/database.types.ts"
+    "db:types": "npx --yes supabase@2.122.0 gen types typescript --project-id yyudfgfjbqakxampehmn --schema public > lib/supabase/database.types.ts && prettier --write lib/supabase/database.types.ts"
   },
   "dependencies": {
     "next": "16.4.3",

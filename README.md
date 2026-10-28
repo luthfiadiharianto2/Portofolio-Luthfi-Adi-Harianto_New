@@ -35,11 +35,15 @@ memasang dan menjalankan tes.
 - `supabase/migrations/`: skema, RLS, hak akses, bucket Storage, dan Realtime
 - `supabase/seed/content.ts`: konten dwibahasa dari portofolio lama (sumber kebenaran)
 - `supabase/seed.sql`: dibuat dari content.ts dengan `pnpm db:seed:generate`
-- `lib/supabase/database.types.ts`: dibuat dari migrasi dengan `pnpm db:types`
+- `lib/supabase/database.types.ts`: dibuat dari proyek Supabase dengan `pnpm db:types`
+  (butuh `SUPABASE_ACCESS_TOKEN` berupa token akses berizin terbatas)
 
 Tes `pnpm test` menjalankan semua migrasi dan seed di Postgres tertanam (PGlite)
 dan memeriksa aturan RLS sebagai pengunjung, pengguna biasa, dan admin.
 Variabel lingkungan dicontohkan di `.env.example`.
+
+Proyek Supabase: `yyudfgfjbqakxampehmn` (Singapura). Migrasi dan seed sudah diterapkan.
+Setelah mengubah migrasi, terapkan ke proyek lalu jalankan `pnpm db:types`.
 
 ## Struktur
 

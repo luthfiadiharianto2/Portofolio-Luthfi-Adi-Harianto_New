@@ -1,6 +1,3 @@
-// File ini dibuat otomatis oleh supabase/types/generate.ts dari supabase/migrations.
-// Jangan diedit langsung. Jalankan `pnpm db:types` setelah mengubah migrasi.
-
 export type Json =
   | string
   | number
@@ -10,241 +7,246 @@ export type Json =
   | Json[];
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "14.18";
+  };
   public: {
     Tables: {
       achievements: {
         Row: {
-          id: string;
-          title: Json;
           detail: Json;
           icon: string;
+          id: string;
           sort_order: number;
+          title: Json;
         };
         Insert: {
-          id?: string;
-          title: Json;
           detail: Json;
           icon: string;
+          id?: string;
           sort_order?: number;
+          title: Json;
         };
         Update: {
-          id?: string;
-          title?: Json;
           detail?: Json;
           icon?: string;
+          id?: string;
           sort_order?: number;
+          title?: Json;
         };
         Relationships: [];
       };
       admins: {
         Row: {
-          email: string;
           created_at: string;
+          email: string;
         };
         Insert: {
-          email: string;
           created_at?: string;
+          email: string;
         };
         Update: {
-          email?: string;
           created_at?: string;
+          email?: string;
         };
         Relationships: [];
       };
       certificates: {
         Row: {
-          id: string;
-          title: Json;
-          issuer: string;
-          year: number;
-          image_path: string | null;
           credential_url: string | null;
-          sort_order: number;
+          id: string;
+          image_path: string | null;
           is_published: boolean;
+          issuer: string;
+          sort_order: number;
+          title: Json;
+          year: number;
         };
         Insert: {
-          id?: string;
-          title: Json;
-          issuer: string;
-          year: number;
-          image_path?: string | null;
           credential_url?: string | null;
-          sort_order?: number;
+          id?: string;
+          image_path?: string | null;
           is_published?: boolean;
+          issuer: string;
+          sort_order?: number;
+          title: Json;
+          year: number;
         };
         Update: {
-          id?: string;
-          title?: Json;
-          issuer?: string;
-          year?: number;
-          image_path?: string | null;
           credential_url?: string | null;
-          sort_order?: number;
+          id?: string;
+          image_path?: string | null;
           is_published?: boolean;
+          issuer?: string;
+          sort_order?: number;
+          title?: Json;
+          year?: number;
         };
         Relationships: [];
       };
       education: {
         Row: {
+          degree: Json;
+          icon: string;
           id: string;
           institution: string;
-          degree: Json;
           period: Json;
-          icon: string;
           sort_order: number;
         };
         Insert: {
+          degree: Json;
+          icon: string;
           id?: string;
           institution: string;
-          degree: Json;
           period: Json;
-          icon: string;
           sort_order?: number;
         };
         Update: {
+          degree?: Json;
+          icon?: string;
           id?: string;
           institution?: string;
-          degree?: Json;
           period?: Json;
-          icon?: string;
           sort_order?: number;
         };
         Relationships: [];
       };
       experiences: {
         Row: {
-          id: string;
-          title: Json;
-          place: Json;
-          period: Json;
           description: Json;
+          id: string;
+          period: Json;
+          place: Json;
           sort_order: number;
+          title: Json;
         };
         Insert: {
-          id?: string;
-          title: Json;
-          place: Json;
-          period: Json;
           description: Json;
+          id?: string;
+          period: Json;
+          place: Json;
           sort_order?: number;
+          title: Json;
         };
         Update: {
-          id?: string;
-          title?: Json;
-          place?: Json;
-          period?: Json;
           description?: Json;
+          id?: string;
+          period?: Json;
+          place?: Json;
           sort_order?: number;
+          title?: Json;
         };
         Relationships: [];
       };
       guestbook: {
         Row: {
-          id: string;
-          name: string;
-          message: string;
           avatar_path: string | null;
+          created_at: string;
+          id: string;
           ip_hash: string;
           is_approved: boolean;
-          created_at: string;
+          message: string;
+          name: string;
         };
         Insert: {
-          id?: string;
-          name: string;
-          message: string;
           avatar_path?: string | null;
+          created_at?: string;
+          id?: string;
           ip_hash: string;
           is_approved?: boolean;
-          created_at?: string;
+          message: string;
+          name: string;
         };
         Update: {
-          id?: string;
-          name?: string;
-          message?: string;
           avatar_path?: string | null;
+          created_at?: string;
+          id?: string;
           ip_hash?: string;
           is_approved?: boolean;
-          created_at?: string;
+          message?: string;
+          name?: string;
         };
         Relationships: [];
       };
       messages: {
         Row: {
-          id: string;
-          name: string;
-          email: string;
           body: string;
+          created_at: string;
+          email: string;
+          id: string;
           ip_hash: string;
           is_read: boolean;
-          created_at: string;
+          name: string;
         };
         Insert: {
-          id?: string;
-          name: string;
-          email: string;
           body: string;
+          created_at?: string;
+          email: string;
+          id?: string;
           ip_hash: string;
           is_read?: boolean;
-          created_at?: string;
+          name: string;
         };
         Update: {
-          id?: string;
-          name?: string;
-          email?: string;
           body?: string;
+          created_at?: string;
+          email?: string;
+          id?: string;
           ip_hash?: string;
           is_read?: boolean;
-          created_at?: string;
+          name?: string;
         };
         Relationships: [];
       };
       organizations: {
         Row: {
+          description: Json;
           id: string;
-          role: Json;
           organization: string;
           period: Json;
-          description: Json;
+          role: Json;
           sort_order: number;
         };
         Insert: {
+          description: Json;
           id?: string;
-          role: Json;
           organization: string;
           period: Json;
-          description: Json;
+          role: Json;
           sort_order?: number;
         };
         Update: {
+          description?: Json;
           id?: string;
-          role?: Json;
           organization?: string;
           period?: Json;
-          description?: Json;
+          role?: Json;
           sort_order?: number;
         };
         Relationships: [];
       };
       project_images: {
         Row: {
-          id: string;
-          project_id: string;
-          path: string;
           alt: Json;
+          id: string;
+          path: string;
+          project_id: string;
           sort_order: number;
         };
         Insert: {
-          id?: string;
-          project_id: string;
-          path: string;
           alt: Json;
+          id?: string;
+          path: string;
+          project_id: string;
           sort_order?: number;
         };
         Update: {
-          id?: string;
-          project_id?: string;
-          path?: string;
           alt?: Json;
+          id?: string;
+          path?: string;
+          project_id?: string;
           sort_order?: number;
         };
         Relationships: [
@@ -259,25 +261,25 @@ export type Database = {
       };
       project_steps: {
         Row: {
+          description: Json;
           id: string;
           project_id: string;
-          title: Json;
-          description: Json;
           sort_order: number;
+          title: Json;
         };
         Insert: {
+          description: Json;
           id?: string;
           project_id: string;
-          title: Json;
-          description: Json;
           sort_order?: number;
+          title: Json;
         };
         Update: {
+          description?: Json;
           id?: string;
           project_id?: string;
-          title?: Json;
-          description?: Json;
           sort_order?: number;
+          title?: Json;
         };
         Relationships: [
           {
@@ -291,60 +293,60 @@ export type Database = {
       };
       projects: {
         Row: {
-          id: string;
-          slug: string;
           category: Database["public"]["Enums"]["project_category"];
           color: string;
-          thumbnail: string;
-          title: string;
-          label: Json;
-          tagline: Json;
+          created_at: string;
+          demo_url: string | null;
           description: Json;
           features: Json;
-          technologies: string[];
-          demo_url: string | null;
-          repo_url: string | null;
-          sort_order: number;
+          id: string;
           is_published: boolean;
-          created_at: string;
+          label: Json;
+          repo_url: string | null;
+          slug: string;
+          sort_order: number;
+          tagline: Json;
+          technologies: string[];
+          thumbnail: string;
+          title: string;
           updated_at: string;
         };
         Insert: {
-          id?: string;
-          slug: string;
           category: Database["public"]["Enums"]["project_category"];
           color: string;
-          thumbnail: string;
-          title: string;
-          label: Json;
-          tagline: Json;
+          created_at?: string;
+          demo_url?: string | null;
           description: Json;
           features: Json;
-          technologies?: string[];
-          demo_url?: string | null;
-          repo_url?: string | null;
-          sort_order?: number;
+          id?: string;
           is_published?: boolean;
-          created_at?: string;
+          label: Json;
+          repo_url?: string | null;
+          slug: string;
+          sort_order?: number;
+          tagline: Json;
+          technologies?: string[];
+          thumbnail: string;
+          title: string;
           updated_at?: string;
         };
         Update: {
-          id?: string;
-          slug?: string;
           category?: Database["public"]["Enums"]["project_category"];
           color?: string;
-          thumbnail?: string;
-          title?: string;
-          label?: Json;
-          tagline?: Json;
+          created_at?: string;
+          demo_url?: string | null;
           description?: Json;
           features?: Json;
-          technologies?: string[];
-          demo_url?: string | null;
-          repo_url?: string | null;
-          sort_order?: number;
+          id?: string;
           is_published?: boolean;
-          created_at?: string;
+          label?: Json;
+          repo_url?: string | null;
+          slug?: string;
+          sort_order?: number;
+          tagline?: Json;
+          technologies?: string[];
+          thumbnail?: string;
+          title?: string;
           updated_at?: string;
         };
         Relationships: [];
@@ -352,40 +354,40 @@ export type Database = {
       site_stats: {
         Row: {
           id: number;
-          visits: number;
           updated_at: string;
+          visits: number;
         };
         Insert: {
           id?: number;
-          visits?: number;
           updated_at?: string;
+          visits?: number;
         };
         Update: {
           id?: number;
-          visits?: number;
           updated_at?: string;
+          visits?: number;
         };
         Relationships: [];
       };
       skills: {
         Row: {
-          id: string;
           category: Json;
           icon: string;
+          id: string;
           items: string[];
           sort_order: number;
         };
         Insert: {
-          id?: string;
           category: Json;
           icon: string;
+          id?: string;
           items?: string[];
           sort_order?: number;
         };
         Update: {
-          id?: string;
           category?: Json;
           icon?: string;
+          id?: string;
           items?: string[];
           sort_order?: number;
         };
@@ -396,10 +398,7 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      increment_visit: {
-        Args: never;
-        Returns: number;
-      };
+      increment_visit: { Args: never; Returns: number };
     };
     Enums: {
       project_category: "uiux" | "web" | "data" | "qa";
@@ -410,13 +409,127 @@ export type Database = {
   };
 };
 
-type PublicSchema = Database["public"];
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">;
 
-export type Tables<T extends keyof PublicSchema["Tables"]> =
-  PublicSchema["Tables"][T]["Row"];
-export type TablesInsert<T extends keyof PublicSchema["Tables"]> =
-  PublicSchema["Tables"][T]["Insert"];
-export type TablesUpdate<T extends keyof PublicSchema["Tables"]> =
-  PublicSchema["Tables"][T]["Update"];
-export type Enums<T extends keyof PublicSchema["Enums"]> =
-  PublicSchema["Enums"][T];
+type DefaultSchema = DatabaseWithoutInternals[Extract<
+  keyof Database,
+  "public"
+>];
+
+export type Tables<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    : never) = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals;
+}
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R;
+    }
+    ? R
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R;
+      }
+      ? R
+      : never
+    : never;
+
+export type TablesInsert<
+  DefaultSchemaTableNameOrOptions extends
+    keyof DefaultSchema["Tables"] | { schema: keyof DatabaseWithoutInternals },
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never) = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals;
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I;
+    }
+    ? I
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I;
+      }
+      ? I
+      : never
+    : never;
+
+export type TablesUpdate<
+  DefaultSchemaTableNameOrOptions extends
+    keyof DefaultSchema["Tables"] | { schema: keyof DatabaseWithoutInternals },
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never) = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals;
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U;
+    }
+    ? U
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U;
+      }
+      ? U
+      : never
+    : never;
+
+export type Enums<
+  DefaultSchemaEnumNameOrOptions extends
+    keyof DefaultSchema["Enums"] | { schema: keyof DatabaseWithoutInternals },
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    : never) = never,
+> = DefaultSchemaEnumNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals;
+}
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never;
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never) = never,
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals;
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never;
+
+export const Constants = {
+  public: {
+    Enums: {
+      project_category: ["uiux", "web", "data", "qa"],
+    },
+  },
+} as const;
