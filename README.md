@@ -30,6 +30,17 @@ Browser Playwright dipasang sekali dengan `pnpm exec playwright install chromium
 Bila drive C: sempit, set `PLAYWRIGHT_BROWSERS_PATH` ke folder di drive lain sebelum
 memasang dan menjalankan tes.
 
+## Database (Supabase)
+
+- `supabase/migrations/`: skema, RLS, hak akses, bucket Storage, dan Realtime
+- `supabase/seed/content.ts`: konten dwibahasa dari portofolio lama (sumber kebenaran)
+- `supabase/seed.sql`: dibuat dari content.ts dengan `pnpm db:seed:generate`
+- `lib/supabase/database.types.ts`: dibuat dari migrasi dengan `pnpm db:types`
+
+Tes `pnpm test` menjalankan semua migrasi dan seed di Postgres tertanam (PGlite)
+dan memeriksa aturan RLS sebagai pengunjung, pengguna biasa, dan admin.
+Variabel lingkungan dicontohkan di `.env.example`.
+
 ## Struktur
 
 - `app/[locale]/`: halaman untuk `/id` dan `/en`
