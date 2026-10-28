@@ -15,6 +15,13 @@
   --color-accent-2: #a855f7;
   --color-accent-3: #06b6d4;
   --color-glow: rgb(108 92 231 / 0.35);
+  --color-overlay: rgb(5 5 10 / 0.72);
+  --color-shadow: rgb(0 0 0 / 0.35);
+
+  /* Versi gelap aksen untuk latar tombol: kontras teks fg minimal 4,7:1 (WCAG AA). */
+  --color-accent-deep: #5b4bd5;
+  --color-accent-2-deep: #7c3aed;
+  --color-accent-3-deep: #0e7490;
 
   --radius-card: 16px;
   --radius-control: 10px;
@@ -40,6 +47,12 @@
     var(--color-accent-2),
     var(--color-accent-3)
   );
+  --gradient-button: linear-gradient(
+    135deg,
+    var(--color-accent-deep),
+    var(--color-accent-2-deep),
+    var(--color-accent-3-deep)
+  );
 }
 
 /* Font dari next/font diset sebagai variabel CSS di <html>, jadi dibaca saat dipakai. */
@@ -56,12 +69,24 @@
   -webkit-backdrop-filter: blur(var(--blur-glass));
 }
 
+/* Kaca lebih pekat untuk elemen yang melayang di atas konten terang (navbar). */
+@utility glass-strong {
+  background-color: color-mix(in srgb, var(--color-surface) 82%, transparent);
+  border: 1px solid var(--color-glass-border);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+}
+
 @utility glow {
   box-shadow: 0 0 48px -12px var(--color-glow);
 }
 
 @utility bg-gradient-primary {
   background-image: var(--gradient-primary);
+}
+
+@utility bg-gradient-button {
+  background-image: var(--gradient-button);
 }
 
 @utility text-gradient-primary {
@@ -74,6 +99,7 @@
 @layer base {
   html {
     color-scheme: dark;
+    scroll-padding-top: 6rem;
     background-color: var(--color-bg);
     -webkit-text-size-adjust: 100%;
   }
@@ -116,5 +142,16 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }

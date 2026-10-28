@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
+import { Footer } from "@/components/sections/footer";
+import { Navbar } from "@/components/sections/navbar";
 import { routing } from "@/i18n/routing";
+import { publicEnv } from "@/lib/env";
 import "../globals.css";
 
 const inter = Inter({
@@ -47,7 +50,13 @@ export default async function LocaleLayout({
         >
           {t("skipToContent")}
         </a>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <Navbar musicUrl={publicEnv.backgroundMusicUrl} />
+          <main id="konten" tabIndex={-1} className="outline-none">
+            {children}
+          </main>
+          <Footer />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

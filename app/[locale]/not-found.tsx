@@ -5,10 +5,7 @@ export default async function NotFound() {
   const t = await getTranslations("NotFound");
 
   return (
-    <main
-      id="konten"
-      className="flex min-h-dvh flex-col items-center justify-center gap-6 px-gutter text-center"
-    >
+    <div className="flex min-h-dvh flex-col items-center justify-center gap-6 px-gutter text-center">
       <h1 className="text-title font-bold">{t("title")}</h1>
       <Link
         href="/"
@@ -16,6 +13,6 @@ export default async function NotFound() {
       >
         {t("back")}
       </Link>
-    </main>
+    </div>
   );
 }

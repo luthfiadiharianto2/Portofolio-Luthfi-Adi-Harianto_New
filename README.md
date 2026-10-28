@@ -5,7 +5,9 @@ README lengkap (mengisi data dan deploy) menyusul di Tahap 8.
 
 ## Menjalankan secara lokal
 
-Butuh Node.js 22+ dan pnpm.
+Butuh Node.js 22+ dan pnpm. Salin `.env.example` menjadi `.env.local`, lalu isi minimal
+`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, dan `IP_HASH_SALT`
+(string acak panjang). Build membaca data dari Supabase, jadi variabel ini juga wajib saat build.
 
 ```bash
 pnpm install
@@ -44,6 +46,12 @@ Variabel lingkungan dicontohkan di `.env.example`.
 
 Proyek Supabase: `yyudfgfjbqakxampehmn` (Singapura). Migrasi dan seed sudah diterapkan.
 Setelah mengubah migrasi, terapkan ke proyek lalu jalankan `pnpm db:types`.
+
+## Konten yang masih TODO
+
+- Username Instagram: isi `socialLinks.instagram` di `lib/site.ts` (selama kosong, ikon tidak tampil).
+- Musik latar navbar: isi `NEXT_PUBLIC_BACKGROUND_MUSIC_URL` dengan file audio milik sendiri.
+- Kartu musik Spotify: isi `NEXT_PUBLIC_SPOTIFY_PLAYLIST_ID`.
 
 ## Struktur
 
