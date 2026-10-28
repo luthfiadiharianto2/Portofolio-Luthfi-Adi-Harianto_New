@@ -26,6 +26,16 @@ const nextConfig: NextConfig = {
   },
 };
 
-const withNextIntl = createNextIntlPlugin();
+// Pesan ICU dikompilasi saat build: parser pesan tidak ikut terkirim ke browser.
+const withNextIntl = createNextIntlPlugin({
+  experimental: {
+    messages: {
+      path: "./messages",
+      format: "json",
+      locales: "infer",
+      precompile: true,
+    },
+  },
+});
 
 export default withNextIntl(nextConfig);

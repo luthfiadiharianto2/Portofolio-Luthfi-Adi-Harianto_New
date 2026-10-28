@@ -204,6 +204,7 @@ export const Portfolio = async () => {
     <section
       id="portfolio"
       aria-labelledby="portfolio-title"
+      data-defer-render
       className="mx-auto max-w-6xl px-gutter py-section"
     >
       <SectionHeading

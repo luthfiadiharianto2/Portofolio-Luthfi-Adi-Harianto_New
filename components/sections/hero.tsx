@@ -23,14 +23,14 @@ export const Hero = async () => {
       <section
         id="home"
         aria-labelledby="hero-title"
-        className="mx-auto grid min-h-dvh max-w-6xl items-center gap-12 px-gutter pt-28 pb-16 lg:grid-cols-[1.15fr_1fr] lg:gap-8 lg:pt-24"
+        className="mx-auto grid min-h-dvh max-w-6xl grid-cols-1 items-center gap-12 px-gutter pt-28 pb-16 lg:grid-cols-[1.15fr_1fr] lg:gap-8 lg:pt-24"
       >
         <div className="text-center lg:text-left">
           <p className="hero-rise text-lead text-muted">{t("greeting")}</p>
+          {/* Judul ini elemen LCP: sengaja tanpa animasi masuk agar langsung tergambar. */}
           <h1
             id="hero-title"
-            className="hero-rise mt-2 text-display font-bold tracking-tight"
-            style={{ "--rise-index": 1 } as CSSProperties}
+            className="mt-2 text-display font-bold tracking-tight"
           >
             <span className="text-gradient-primary">{t("name")}</span>
           </h1>

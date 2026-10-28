@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-// Chromium headless memakai renderer perangkat lunak (SwiftShader), sehingga secara
-// default situs memilih tampilan statis. ?3d=force melewati pemeriksaan renderer.
+// Chromium headless memakai renderer perangkat lunak (SwiftShader). Kanvas 3D mendeteksinya
+// saat dibuat lalu mundur ke tampilan statis; ?3d=force melewati pemeriksaan itu.
+// three.js menandai kanvas WebGL-nya dengan atribut data-engine.
+const WEBGL_CANVAS = "canvas[data-engine]";
 
 test.describe("tampilan cadangan statis", () => {
   test("tanpa GPU: kartu statis tampil dan tidak ada kanvas 3D", async ({
@@ -12,7 +14,10 @@ test.describe("tampilan cadangan statis", () => {
       page.getByRole("img", { name: "Kartu identitas Luthfi Adi Harianto" }),
     ).toBeVisible();
     await expect(page.getByTestId("id-card-3d")).toHaveCount(0);
-    await expect(page.locator("canvas")).toHaveCount(0);
+    // Kanvas dibuat dulu lalu dilepas setelah renderer perangkat lunak terdeteksi.
+    await expect(page.locator(WEBGL_CANVAS)).toHaveCount(0, {
+      timeout: 15_000,
+    });
     await expect(page.getByRole("status").filter({ hasText: "%" })).toHaveCount(
       0,
       { timeout: 2000 },

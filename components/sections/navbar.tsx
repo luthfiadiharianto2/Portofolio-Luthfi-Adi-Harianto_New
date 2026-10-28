@@ -56,7 +56,11 @@ const LanguageSwitcher = () => {
           href={pathname}
           locale={option}
           aria-current={option === locale ? "true" : undefined}
-          aria-label={t("switchTo", { language: LANGUAGE_NAMES[option] })}
+          // Nama aksesibel diawali kode yang terlihat (WCAG 2.5.3, label dalam nama).
+          aria-label={t("switchTo", {
+            code: option.toUpperCase(),
+            language: LANGUAGE_NAMES[option],
+          })}
           className={cn(
             "inline-flex min-h-(--spacing-touch) min-w-11 items-center justify-center rounded-full px-2 text-xs font-semibold uppercase transition-colors duration-200",
             option === locale

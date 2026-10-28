@@ -62,6 +62,7 @@ export const About = async () => {
     <section
       id="about"
       aria-labelledby="about-title"
+      data-defer-render
       className="mx-auto max-w-6xl px-gutter py-section"
     >
       <SectionHeading
@@ -71,7 +72,7 @@ export const About = async () => {
         glitch
       />
 
-      <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-14">
+      <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-14">
         <div
           data-reveal
           className="mx-auto w-full max-w-sm lg:sticky lg:top-28"
@@ -118,14 +119,19 @@ export const About = async () => {
 
           <ul data-reveal className="grid grid-cols-3 gap-3">
             {stats.map(({ label, value }) => (
-              <li key={label} className="rounded-card glass p-4 text-center">
+              <li
+                key={label}
+                className="min-w-0 rounded-card glass px-2 py-4 text-center sm:p-4"
+              >
                 <p
                   data-count={value}
                   className="text-gradient-primary font-heading text-3xl font-bold tabular-nums sm:text-4xl"
                 >
                   {value}
                 </p>
-                <p className="mt-1 text-xs text-muted sm:text-sm">{label}</p>
+                <p className="mt-1 text-[0.625rem] [overflow-wrap:anywhere] text-muted min-[360px]:text-xs sm:text-sm">
+                  {label}
+                </p>
               </li>
             ))}
           </ul>
@@ -161,7 +167,7 @@ export const About = async () => {
             </ol>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
               <h3 className="mb-4 text-xl font-semibold">
                 {t("educationTitle")}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import {
+  isForced3d,
   type QualityProfile,
   qualityOf,
   readDeviceInfo,
@@ -18,7 +19,7 @@ export const useDeviceTier = (): QualityProfile | null => {
       const info = readDeviceInfo(reducedMotion);
       // ?3d=force melewati pemeriksaan renderer dan perangkat keras (untuk pengujian
       // di browser tanpa GPU). WebGL dan preferensi gerak dikurangi tetap dihormati.
-      if (new URLSearchParams(window.location.search).get("3d") === "force") {
+      if (isForced3d()) {
         Object.assign(info, {
           renderer: "",
           cores: undefined,

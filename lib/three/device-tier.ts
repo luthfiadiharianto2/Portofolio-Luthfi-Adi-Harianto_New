@@ -75,32 +75,39 @@ export const qualityOf = (info: DeviceInfo): QualityProfile => {
   return { breakpoint, tier, ...base, bloom: base.bloom && tier === "high" };
 };
 
-/** Membaca informasi perangkat di browser. */
+/** Benar bila renderer WebGL berjalan di CPU (tanpa GPU), mis. SwiftShader atau llvmpipe. */
+export const isSoftwareRenderer = (renderer: string) =>
+  SOFTWARE_RENDERER.test(renderer);
+
+/** Membaca nama renderer dari konteks WebGL yang sudah ada (mis. milik three.js). */
+export const rendererOf = (
+  gl: WebGLRenderingContext | WebGL2RenderingContext,
+) => {
+  const debug = gl.getExtension("WEBGL_debug_renderer_info");
+  return String(
+    gl.getParameter(debug ? debug.UNMASKED_RENDERER_WEBGL : gl.RENDERER) ?? "",
+  );
+};
+
+/**
+ * Membaca informasi perangkat di browser. Sengaja tidak membuat konteks WebGL: pada
+ * GPU sungguhan, konteks pertama menyalakan proses GPU secara sinkron (bisa >1 detik di
+ * HP). Nama renderer diperiksa belakangan oleh kanvas 3D lewat konteksnya sendiri.
+ */
 export const readDeviceInfo = (reducedMotion: boolean): DeviceInfo => {
-  let webgl = false;
-  let renderer = "";
-  try {
-    const canvas = document.createElement("canvas");
-    const gl = canvas.getContext("webgl2") ?? canvas.getContext("webgl");
-    if (gl) {
-      webgl = true;
-      const debug = gl.getExtension("WEBGL_debug_renderer_info");
-      renderer = String(
-        gl.getParameter(debug ? debug.UNMASKED_RENDERER_WEBGL : gl.RENDERER) ??
-          "",
-      );
-      gl.getExtension("WEBGL_lose_context")?.loseContext();
-    }
-  } catch {
-    webgl = false;
-  }
   const nav = navigator as Navigator & { deviceMemory?: number };
   return {
     width: window.innerWidth,
-    webgl,
-    renderer,
+    webgl:
+      typeof window.WebGL2RenderingContext !== "undefined" ||
+      typeof window.WebGLRenderingContext !== "undefined",
+    renderer: "",
     cores: nav.hardwareConcurrency || undefined,
     memoryGb: nav.deviceMemory,
     reducedMotion,
   };
 };
+
+/** ?3d=force melewati pemeriksaan renderer dan perangkat keras (untuk pengujian). */
+export const isForced3d = () =>
+  new URLSearchParams(window.location.search).get("3d") === "force";

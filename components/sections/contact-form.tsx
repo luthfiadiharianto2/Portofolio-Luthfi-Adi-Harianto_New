@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useActionState, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { sendMessage } from "@/app/actions/visitor";
+import { useHydrated } from "@/hooks/use-hydrated";
 import { buttonStyles } from "@/components/ui/button-styles";
 import {
   describedBy,
@@ -91,6 +92,7 @@ const MessageForm = ({
   const fieldError = (name: keyof ContactInput) =>
     message.field(errors[name]?.message ?? serverErrors?.[name]);
   const busy = isPending || isTransitioning;
+  const hydrated = useHydrated();
 
   const fields = {
     name: { id: "contact-name", error: fieldError("name") },
@@ -99,9 +101,15 @@ const MessageForm = ({
   };
 
   return (
-    <form onSubmit={submit} noValidate className="relative flex flex-col gap-5">
+    // method="post": bila dikirim sebelum terhidrasi, isi form tidak masuk ke URL.
+    <form
+      method="post"
+      onSubmit={submit}
+      noValidate
+      className="relative flex flex-col gap-5"
+    >
       <HoneypotField label={t("honeypot")} />
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <FormField
           id={fields.name.id}
           label={t("name")}
@@ -155,7 +163,7 @@ const MessageForm = ({
       ) : null}
       <button
         type="submit"
-        disabled={busy}
+        disabled={busy || !hydrated}
         className={`${buttonStyles.primary} self-start`}
       >
         <Send aria-hidden="true" className="size-4" />

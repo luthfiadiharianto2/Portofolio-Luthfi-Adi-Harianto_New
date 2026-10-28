@@ -14,7 +14,12 @@ import {
   Points,
   PointsMaterial,
 } from "three";
-import type { QualityProfile } from "@/lib/three/device-tier";
+import {
+  isForced3d,
+  isSoftwareRenderer,
+  type QualityProfile,
+  rendererOf,
+} from "@/lib/three/device-tier";
 import { type DesignTokens, readTokens } from "@/lib/three/tokens";
 
 const SHOOTING_STARS = 2;
@@ -209,9 +214,12 @@ const Stars = ({
 export default function StarfieldCanvas({
   quality,
   interactive,
+  onUnsupported,
 }: {
   quality: QualityProfile;
   interactive: boolean;
+  /** Dipanggil bila WebGL berjalan tanpa GPU: induk kembali ke bintang statis. */
+  onUnsupported: () => void;
 }) {
   const [factor, setFactor] = useState(1);
   const [minDpr, maxDpr] = quality.dpr;
@@ -226,6 +234,10 @@ export default function StarfieldCanvas({
       camera={{ position: [0, 0, 1], fov: 70, near: 0.1, far: 100 }}
       gl={{ antialias: false, alpha: true, powerPreference: "low-power" }}
       style={{ position: "fixed", inset: 0, pointerEvents: "none" }}
+      onCreated={({ gl }) => {
+        if (!isForced3d() && isSoftwareRenderer(rendererOf(gl.getContext())))
+          onUnsupported();
+      }}
     >
       <PerformanceMonitor
         bounds={() => [45, 58]}

@@ -5,6 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Footer } from "@/components/sections/footer";
 import { Navbar } from "@/components/sections/navbar";
 import { MotionRuntime } from "@/components/motion/motion-runtime";
+import { TechIconSprite } from "@/components/icons/tech-icon";
 import { Starfield } from "@/components/three/starfield";
 import { routing } from "@/i18n/routing";
 import { publicEnv } from "@/lib/env";
@@ -46,6 +47,7 @@ export default async function LocaleLayout({
       className={`${inter.variable} ${spaceGrotesk.variable}`}
     >
       <body>
+        <TechIconSprite />
         <a
           href="#konten"
           className="fixed top-3 left-3 z-50 -translate-y-24 rounded-control bg-surface px-4 py-3 text-fg transition-transform duration-200 ease-(--ease-standard) focus-visible:translate-y-0"

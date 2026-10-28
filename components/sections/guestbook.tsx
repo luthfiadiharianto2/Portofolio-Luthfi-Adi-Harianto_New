@@ -14,6 +14,7 @@ import {
 } from "react";
 import { useForm } from "react-hook-form";
 import { signGuestbook } from "@/app/actions/visitor";
+import { useHydrated } from "@/hooks/use-hydrated";
 import { buttonStyles } from "@/components/ui/button-styles";
 import {
   describedBy,
@@ -182,6 +183,7 @@ const GuestbookForm = ({
   const fieldError = (name: keyof GuestbookInput) =>
     message.field(errors[name]?.message ?? serverErrors?.[name]);
   const busy = isPending || isTransitioning;
+  const hydrated = useHydrated();
   const fields = {
     name: { id: "guestbook-name", error: fieldError("name") },
     message: { id: "guestbook-message", error: fieldError("message") },
@@ -193,7 +195,13 @@ const GuestbookForm = ({
   };
 
   return (
-    <form onSubmit={submit} noValidate className="relative flex flex-col gap-5">
+    // method="post": bila dikirim sebelum terhidrasi, isi form tidak masuk ke URL.
+    <form
+      method="post"
+      onSubmit={submit}
+      noValidate
+      className="relative flex flex-col gap-5"
+    >
       <HoneypotField label={contact("honeypot")} />
       <FormField
         id={fields.name.id}
@@ -254,7 +262,7 @@ const GuestbookForm = ({
       ) : null}
       <button
         type="submit"
-        disabled={busy}
+        disabled={busy || !hydrated}
         className={`${buttonStyles.primary} self-start`}
       >
         <Send aria-hidden="true" className="size-4" />
@@ -283,7 +291,7 @@ export const Guestbook = ({
   const [formKey, setFormKey] = useState(0);
 
   return (
-    <div ref={container} className="grid gap-8 lg:grid-cols-2">
+    <div ref={container} className="grid grid-cols-1 gap-8 lg:grid-cols-2">
       <div className="rounded-card glass p-6 sm:p-8">
         <h3 className="font-heading text-xl font-semibold">{t("title")}</h3>
         <p className="mt-1 mb-6 text-sm text-muted">{t("subtitle")}</p>

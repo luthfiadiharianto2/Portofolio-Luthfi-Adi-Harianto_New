@@ -37,7 +37,6 @@ import {
   type SimpleIcon,
 } from "simple-icons";
 import { cn } from "@/lib/utils";
-import { BrandIcon } from "./brand";
 
 // Logo resmi bila tersedia di simple-icons; selain itu ikon umum dari lucide.
 const brandIcons: Record<string, SimpleIcon> = {
@@ -97,6 +96,25 @@ export const categoryIcons: Record<string, LucideIcon> = {
   shield: Shield,
 };
 
+const symbolId = (icon: SimpleIcon) => `tech-${icon.slug}`;
+
+// Path logo merek panjang (hingga 5 kB) dan logo yang sama muncul puluhan kali di kartu
+// proyek dan marquee. Path-nya ditulis sekali di sprite ini (dipasang di layout), lalu
+// setiap ikon cukup merujuknya lewat <use>, sehingga HTML dan payload RSC jauh lebih kecil.
+export const TechIconSprite = () => (
+  <svg
+    aria-hidden="true"
+    focusable="false"
+    className="absolute size-0 overflow-hidden"
+  >
+    {Object.values(brandIcons).map((icon) => (
+      <symbol key={icon.slug} id={symbolId(icon)} viewBox="0 0 24 24">
+        <path d={icon.path} />
+      </symbol>
+    ))}
+  </svg>
+);
+
 export const TechIcon = ({
   name,
   className,
@@ -105,7 +123,16 @@ export const TechIcon = ({
   className?: string;
 }) => {
   const brand = brandIcons[name];
-  if (brand) return <BrandIcon icon={brand} className={className} />;
+  if (brand)
+    return (
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        className={cn("size-5 fill-current", className)}
+      >
+        <use href={`#${symbolId(brand)}`} />
+      </svg>
+    );
   const Generic = genericIcons[name] ?? Code;
   return <Generic aria-hidden="true" className={cn("size-5", className)} />;
 };

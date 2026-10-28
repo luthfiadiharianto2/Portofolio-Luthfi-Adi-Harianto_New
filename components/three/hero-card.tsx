@@ -8,8 +8,11 @@ import {
   useRef,
   useState,
 } from "react";
+import { useAfterLoad } from "@/hooks/use-after-load";
 import { useDeviceTier } from "@/hooks/use-device-tier";
+import { useFirstInteraction } from "@/hooks/use-first-interaction";
 import { useInView } from "@/hooks/use-in-view";
+import { useSeenOnce } from "@/hooks/use-seen-once";
 import { cn } from "@/lib/utils";
 import type { CardBaseContent } from "./card-textures";
 import { progressStore } from "./progress-store";
@@ -28,12 +31,19 @@ export const HeroCard = ({ children, content, label }: HeroCardProps) => {
   const container = useRef<HTMLDivElement>(null);
   const quality = useDeviceTier();
   const inView = useInView(container);
+  const seen = useSeenOnce(container, "0px");
+  const phone = quality?.breakpoint === "phone";
+  const interacted = useFirstInteraction(phone);
   const [ready, setReady] = useState(false);
-  const use3d = quality !== null && quality.tier !== "none";
+  const afterLoad = useAfterLoad();
+  const [unsupported, setUnsupported] = useState(false);
+  const use3d = quality !== null && quality.tier !== "none" && !unsupported;
 
+  // Preloader hanya menunggu kanvas yang dipasang saat halaman dimuat. Di HP kartu 3D
+  // menunggu interaksi pertama, jadi preloader langsung selesai.
   useEffect(() => {
-    if (quality && !use3d) progressStore.finish();
-  }, [quality, use3d]);
+    if (quality && (!use3d || phone)) progressStore.finish();
+  }, [quality, use3d, phone]);
 
   const onReady = useCallback(() => setReady(true), []);
 
@@ -53,13 +63,16 @@ export const HeroCard = ({ children, content, label }: HeroCardProps) => {
       >
         {children}
       </div>
-      {use3d ? (
+      {/* Di HP kartu ada di bawah teks hero: 3D baru dimuat setelah interaksi pertama dan
+          saat kartu terlihat, agar tidak membebani pemuatan awal di perangkat lemah. */}
+      {use3d && afterLoad && (!phone || (seen && interacted)) ? (
         <div className="absolute inset-0" data-testid="id-card-3d">
           <IdCardCanvas
             quality={quality}
             active={inView}
             content={content}
             onReady={onReady}
+            onUnsupported={() => setUnsupported(true)}
           />
         </div>
       ) : null}

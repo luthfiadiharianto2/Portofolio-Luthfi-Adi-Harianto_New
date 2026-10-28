@@ -21,7 +21,7 @@
     "openMenu": "Buka menu",
     "closeMenu": "Tutup menu",
     "language": "Bahasa",
-    "switchTo": "Ganti ke {language}",
+    "switchTo": "{code}, ganti ke {language}",
     "musicOn": "Putar musik latar",
     "musicOff": "Hentikan musik latar"
   },

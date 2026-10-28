@@ -4,8 +4,7 @@ import { getSocialLinks } from "@/components/ui/social-links";
 import { getApprovedGuestbook } from "@/lib/data/content";
 import { publicEnv, storagePublicUrl } from "@/lib/env";
 import { socialLinks } from "@/lib/site";
-import { ContactForm } from "./contact-form";
-import { Guestbook } from "./guestbook";
+import { LazyContactForm, LazyGuestbook } from "./contact-islands";
 
 export const Contact = async () => {
   const [t, common, guestbook] = await Promise.all([
@@ -25,6 +24,7 @@ export const Contact = async () => {
     <section
       id="contact"
       aria-labelledby="contact-title"
+      data-defer-render
       className="mx-auto max-w-6xl px-gutter py-section"
     >
       <SectionHeading
@@ -36,7 +36,7 @@ export const Contact = async () => {
 
       <div
         data-reveal
-        className="grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]"
+        className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]"
       >
         <div className="rounded-card glass p-6 sm:p-8">
           <h3 className="font-heading text-xl font-semibold">
@@ -75,12 +75,12 @@ export const Contact = async () => {
           <h3 className="mb-6 font-heading text-xl font-semibold">
             {t("formTitle")}
           </h3>
-          <ContactForm turnstileSiteKey={publicEnv.turnstileSiteKey} />
+          <LazyContactForm turnstileSiteKey={publicEnv.turnstileSiteKey} />
         </div>
       </div>
 
       <div className="mt-8">
-        <Guestbook
+        <LazyGuestbook
           initialEntries={guestbook}
           turnstileSiteKey={publicEnv.turnstileSiteKey}
           realtime={{

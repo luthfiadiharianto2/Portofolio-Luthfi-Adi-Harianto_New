@@ -21,7 +21,7 @@
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "language": "Language",
-    "switchTo": "Switch to {language}",
+    "switchTo": "{code}, switch to {language}",
     "musicOn": "Play background music",
     "musicOff": "Stop background music"
   },

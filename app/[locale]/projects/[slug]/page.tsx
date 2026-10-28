@@ -160,7 +160,7 @@ export default async function ProjectPage({
         </section>
       ) : null}
 
-      <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+      <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div className="flex flex-col gap-10">
           <section aria-labelledby="description-title">
             <h2 id="description-title" className="mb-3 text-xl font-semibold">
@@ -238,7 +238,7 @@ export default async function ProjectPage({
       {previous && next && projects.length > 1 ? (
         <nav
           aria-label={t("pagination")}
-          className="mt-16 grid gap-4 border-t border-glass-border pt-8 sm:grid-cols-2"
+          className="mt-16 grid grid-cols-1 gap-4 border-t border-glass-border pt-8 sm:grid-cols-2"
         >
           <Link
             href={`/projects/${previous.slug}`}

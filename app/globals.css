@@ -192,6 +192,30 @@
   animation-delay: calc(var(--rise-index, 0) * 0.08s);
 }
 
+/* Section di bawah lipatan: di layar sentuh browser melewati style dan layout-nya sampai
+   mendekati layar, sehingga pemuatan awal tidak me-layout seluruh halaman. "auto" mengingat
+   tinggi aslinya setelah dirender sekali. Tidak dipakai untuk mouse/trackpad: Lenis
+   menganimasikan scroll ke posisi yang dihitung sebelum section membesar, sehingga lompatan
+   ke anchor akan meleset. */
+@media not ((hover: hover) and (pointer: fine)) {
+  [data-defer-render] {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 60rem;
+  }
+}
+
+/* Muncul saat scroll (reveal.ts): fade dan geser naik 24 px, 0,6 detik. */
+[data-reveal-state] {
+  transition:
+    opacity 0.6s var(--ease-standard) var(--reveal-delay, 0ms),
+    transform 0.6s var(--ease-standard) var(--reveal-delay, 0ms);
+}
+
+[data-reveal-state="pending"] {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
 /* Judul terbelah per kata dengan topeng; digerakkan oleh modul adegan scroll. */
 .split-mask {
   display: inline-block;
@@ -340,5 +364,36 @@
 @keyframes caret {
   50% {
     opacity: 0;
+  }
+}
+
+/* Bintang jatuh CSS (latar bintang HP): melintas sekali tiap 11 detik. */
+.shooting-star {
+  position: absolute;
+  top: 12%;
+  right: -10%;
+  width: 90px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-fg), transparent);
+  opacity: 0;
+  transform: rotate(-24deg);
+  animation: shooting-star 11s linear 4s infinite;
+}
+
+@keyframes shooting-star {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(-24deg);
+  }
+  2% {
+    opacity: 0.9;
+  }
+  9% {
+    opacity: 0;
+    transform: translate3d(-70vw, 32vw, 0) rotate(-24deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-70vw, 32vw, 0) rotate(-24deg);
   }
 }

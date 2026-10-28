@@ -1,4 +1,5 @@
-// Adegan scroll dan efek pointer. Dimuat malas setelah halaman idle, dan tidak dimuat
+// Adegan scroll (judul terbelah, glitch, hitung naik) dan efek pointer.
+// "Muncul saat scroll" ada di reveal.ts (tanpa GSAP, lebih ringan). Dimuat malas setelah halaman idle, dan tidak dimuat
 // sama sekali bila pengguna memilih gerak dikurangi. Semua adegan dibungkus
 // gsap.context dan dibersihkan lewat fungsi yang dikembalikan.
 
@@ -6,6 +7,7 @@ import { gsap } from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
+import { belowFold } from "./reveal";
 
 gsap.registerPlugin(ScrollTrigger, CustomEase);
 // Easing standar situs: cubic-bezier(0.4, 0, 0.2, 1).
@@ -13,33 +15,14 @@ CustomEase.create("standard", "0.4,0,0.2,1");
 
 const START = "top 85%";
 
-// Elemen yang sudah terlihat saat modul dimuat tidak disembunyikan ulang,
+// Elemen yang sudah terlihat saat modul dimuat tidak disembunyikan ulang (belowFold),
 // agar tidak ada konten yang berkedip.
-const belowFold = (element: Element) =>
-  element.getBoundingClientRect().top > window.innerHeight;
 
 const finePointer = () =>
   window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 const desktop = () => window.matchMedia("(min-width: 1024px)").matches;
 
 const revealScenes = () => {
-  // Fade dan geser naik 24 px, 0,6 detik, jeda antar elemen 0,08 detik.
-  // Hanya opacity (bukan visibility) agar konten tetap bisa difokus dan dibaca pembaca layar.
-  gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((group) => {
-    const items =
-      group.children.length > 0 ? Array.from(group.children) : [group];
-    const pending = items.filter(belowFold);
-    if (pending.length === 0) return;
-    gsap.from(pending, {
-      y: 24,
-      opacity: 0,
-      duration: 0.6,
-      stagger: 0.08,
-      ease: "standard",
-      scrollTrigger: { trigger: group, start: START, once: true },
-    });
-  });
-
   // Judul section muncul per kata dari balik topeng.
   gsap.utils.toArray<HTMLElement>("[data-split]").forEach((title) => {
     if (!belowFold(title)) return;
@@ -172,16 +155,35 @@ let lenis: Lenis | null = null;
 
 // Smooth scroll Lenis, disinkronkan dengan ScrollTrigger. Hanya dibuat sekali.
 const ensureLenis = () => {
-  if (lenis) return;
+  // Di layar sentuh scroll bawaan sudah halus; Lenis hanya untuk mouse dan trackpad.
+  if (lenis || !finePointer()) return;
   lenis = new Lenis({ anchors: { offset: -96 }, allowNestedScroll: true });
   lenis.on("scroll", ScrollTrigger.update);
   gsap.ticker.add((time) => lenis?.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
 };
 
+// Di layar sentuh section [data-defer-render] memakai content-visibility: auto, sehingga
+// tingginya baru pasti saat dirender. Posisi pemicu dihitung ulang setiap kali ukurannya berubah.
+const refreshOnDeferredResize = () => {
+  let frame = 0;
+  const observer = new ResizeObserver(() => {
+    window.cancelAnimationFrame(frame);
+    frame = window.requestAnimationFrame(() => ScrollTrigger.refresh());
+  });
+  document
+    .querySelectorAll("[data-defer-render]")
+    .forEach((section) => observer.observe(section));
+  return () => {
+    window.cancelAnimationFrame(frame);
+    observer.disconnect();
+  };
+};
+
 /** Memasang adegan untuk halaman saat ini; mengembalikan fungsi pembersih. */
 export const startScenes = () => {
   ensureLenis();
+  const stopRefresh = refreshOnDeferredResize();
   let cleanupPointer = () => {};
   const context = gsap.context(() => {
     revealScenes();
@@ -189,6 +191,7 @@ export const startScenes = () => {
   });
   ScrollTrigger.refresh();
   return () => {
+    stopRefresh();
     cleanupPointer();
     context.revert();
   };

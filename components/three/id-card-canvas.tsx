@@ -1,8 +1,6 @@
 "use client";
 
 import {
-  Environment,
-  Lightformer,
   Line,
   PerformanceMonitor,
   RoundedBox,
@@ -23,7 +21,12 @@ import {
   type Texture,
   Vector3,
 } from "three";
-import type { QualityProfile } from "@/lib/three/device-tier";
+import {
+  isForced3d,
+  isSoftwareRenderer,
+  type QualityProfile,
+  rendererOf,
+} from "@/lib/three/device-tier";
 import { createRope, createSpring } from "@/lib/three/rope";
 import { readTokens } from "@/lib/three/tokens";
 import {
@@ -62,7 +65,7 @@ const Lanyard = ({ content, onReady, onDragChange }: LanyardProps) => {
   const card = useRef<Group>(null);
   const line = useRef<ComponentRef<typeof Line>>(null);
   const tokens = useMemo(() => readTokens(), []);
-  const { viewport, size } = useThree();
+  const { viewport, size, invalidate } = useThree();
   const [textures, setTextures] = useState<{
     front: Texture;
     back: Texture;
@@ -134,6 +137,7 @@ const Lanyard = ({ content, onReady, onDragChange }: LanyardProps) => {
   };
 
   const onPointerDown = (event: ThreeEvent<PointerEvent>) => {
+    invalidate();
     event.stopPropagation();
     (event.target as Element).setPointerCapture(event.pointerId);
     const tip = rope.tip();
@@ -154,6 +158,8 @@ const Lanyard = ({ content, onReady, onDragChange }: LanyardProps) => {
     onDragChange(false);
   };
 
+  // frameloop="demand": frame berikutnya diminta hanya selama kartu masih bergerak,
+  // sehingga kartu yang diam tidak memakan CPU/GPU sama sekali.
   useFrame((state, delta) => {
     if (drag.current) {
       const world = pointerWorld(state.pointer);
@@ -195,6 +201,14 @@ const Lanyard = ({ content, onReady, onDragChange }: LanyardProps) => {
       .getPoints(ROPE_SAMPLES - 1)
       .flatMap((point) => [point.x, point.y, point.z]);
     line.current?.geometry.setPositions(sampled);
+
+    const velocity = rope.tipVelocity(1 / 60);
+    const moving =
+      drag.current !== null ||
+      Math.hypot(velocity.x, velocity.y) > 0.004 ||
+      Math.abs(spin.value) > 0.002 ||
+      Math.abs(spin.velocity) > 0.002;
+    if (moving) invalidate();
   });
 
   return (
@@ -238,39 +252,33 @@ const Lanyard = ({ content, onReady, onDragChange }: LanyardProps) => {
           radius={0.07}
           smoothness={4}
         >
-          <meshPhysicalMaterial
+          <meshStandardMaterial
             color={tokens.surface}
-            roughness={0.6}
-            clearcoat={0.35}
-            clearcoatRoughness={0.4}
-            envMapIntensity={0.6}
+            roughness={0.55}
+            metalness={0.1}
           />
         </RoundedBox>
         <mesh position={[0, 0, 0.0215]}>
           <planeGeometry args={[CARD_WIDTH - 0.06, CARD_HEIGHT - 0.06]} />
-          <meshPhysicalMaterial
+          <meshStandardMaterial
             // Material dibuat ulang saat tekstur siap: shader perlu dikompilasi dengan map.
             key={textures ? "front-textured" : "front-plain"}
             map={textures?.front ?? null}
             color={textures ? TEXTURE_TINT : tokens.surface}
-            roughness={0.6}
-            clearcoat={0.35}
-            clearcoatRoughness={0.35}
-            envMapIntensity={0.6}
+            roughness={0.45}
+            metalness={0.05}
             toneMapped={false}
           />
         </mesh>
         <mesh position={[0, 0, -0.0215]} rotation={[0, Math.PI, 0]}>
           <planeGeometry args={[CARD_WIDTH - 0.06, CARD_HEIGHT - 0.06]} />
-          <meshPhysicalMaterial
+          <meshStandardMaterial
             // Material dibuat ulang saat tekstur siap: shader perlu dikompilasi dengan map.
             key={textures ? "back-textured" : "back-plain"}
             map={textures?.back ?? null}
             color={textures ? TEXTURE_TINT : tokens.accentDeep}
-            roughness={0.6}
-            clearcoat={0.35}
-            clearcoatRoughness={0.35}
-            envMapIntensity={0.6}
+            roughness={0.45}
+            metalness={0.05}
             toneMapped={false}
             side={DoubleSide}
           />
@@ -285,6 +293,8 @@ type IdCardCanvasProps = {
   active: boolean;
   content: CardBaseContent;
   onReady: () => void;
+  /** Dipanggil bila WebGL berjalan tanpa GPU: induk kembali ke kartu statis. */
+  onUnsupported: () => void;
 };
 
 export default function IdCardCanvas({
@@ -292,6 +302,7 @@ export default function IdCardCanvas({
   active,
   content,
   onReady,
+  onUnsupported,
 }: IdCardCanvasProps) {
   // Kode QR mengarah ke alamat situs yang sedang dibuka (komponen ini hanya di browser).
   const cardContent = useMemo<CardContent>(
@@ -319,11 +330,15 @@ export default function IdCardCanvas({
     <Canvas
       aria-hidden="true"
       dpr={minDpr + (maxDpr - minDpr) * factor}
-      frameloop={active ? "always" : "never"}
+      frameloop={active ? "demand" : "never"}
       camera={{ position: [0, 0, 10], fov: 25 }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       style={{ touchAction: "pan-y" }}
       onCreated={({ gl }) => {
+        if (!isForced3d() && isSoftwareRenderer(rendererOf(gl.getContext()))) {
+          onUnsupported();
+          return;
+        }
         // Scroll halaman hanya ditahan bila sentuhan dimulai pada kartu.
         const canvas = gl.domElement;
         const stopScroll = (event: TouchEvent) => {
@@ -340,27 +355,8 @@ export default function IdCardCanvas({
       >
         <ambientLight intensity={1.1} />
         <directionalLight position={[3, 4, 6]} intensity={0.8} />
-        {/* Lingkungan cahaya prosedural (tanpa unduhan HDR) untuk pantulan halus. */}
-        <Environment resolution={128} frames={1}>
-          <Lightformer
-            intensity={1}
-            position={[0, 5, 3]}
-            rotation-x={Math.PI / 3}
-            scale={[6, 0.6, 1]}
-          />
-          <Lightformer
-            intensity={0.8}
-            position={[-4, 0, 2]}
-            rotation-y={Math.PI / 3}
-            scale={[4, 6, 1]}
-          />
-          <Lightformer
-            intensity={0.8}
-            position={[4, -1, 2]}
-            rotation-y={-Math.PI / 3}
-            scale={[4, 6, 1]}
-          />
-        </Environment>
+        {/* Lampu titik di dekat kamera: sorotan bergeser saat kartu berayun atau berputar. */}
+        <pointLight position={[1.5, 1.5, 6]} intensity={30} decay={2} />
         <Lanyard
           content={cardContent}
           onReady={handleReady}

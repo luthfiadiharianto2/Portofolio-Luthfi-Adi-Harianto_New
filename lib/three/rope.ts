@@ -126,6 +126,9 @@ export const createSpring = ({ stiffness = 28, damping = 4.5 } = {}) => {
     get value() {
       return value;
     },
+    get velocity() {
+      return velocity;
+    },
     impulse: (amount: number) => {
       velocity += amount;
     },
