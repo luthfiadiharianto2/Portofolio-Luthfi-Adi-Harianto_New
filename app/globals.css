@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
 /*
  * Token desain. Komponen hanya boleh memakai token ini (lewat utilitas Tailwind
@@ -178,5 +179,166 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
+  }
+}
+
+/* ───────────────────────── Animasi (Tahap 5) ─────────────────────────
+ * Hanya transform dan opacity yang dianimasikan. Mode gerak dikurangi mematikan
+ * semuanya lewat aturan prefers-reduced-motion di @layer base. */
+
+/* Intro hero tanpa JavaScript: muncul bertahap saat halaman dibuka. */
+.hero-rise {
+  animation: rise 0.6s var(--ease-standard) both;
+  animation-delay: calc(var(--rise-index, 0) * 0.08s);
+}
+
+/* Judul terbelah per kata dengan topeng; digerakkan oleh modul adegan scroll. */
+.split-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.split-word {
+  display: inline-block;
+}
+
+/* Glitch: potongan cyan dan ungu bergeser sebentar, sekali saat masuk layar. */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.glitch::before {
+  color: var(--color-accent-3);
+  clip-path: inset(0 0 55% 0);
+}
+
+.glitch::after {
+  color: var(--color-accent-2);
+  clip-path: inset(50% 0 0 0);
+}
+
+.glitch.is-glitching::before {
+  animation: glitch-top 0.6s steps(6, end) both;
+}
+
+.glitch.is-glitching::after {
+  animation: glitch-bottom 0.6s steps(6, end) both;
+}
+
+@keyframes glitch-top {
+  0%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+  20% {
+    opacity: 0.9;
+    transform: translate(-4px, -1px);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate(3px, 1px);
+  }
+  80% {
+    opacity: 0.6;
+    transform: translate(-2px, 0);
+  }
+}
+
+@keyframes glitch-bottom {
+  0%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+  25% {
+    opacity: 0.9;
+    transform: translate(4px, 1px);
+  }
+  55% {
+    opacity: 0.9;
+    transform: translate(-3px, -1px);
+  }
+  85% {
+    opacity: 0.6;
+    transform: translate(2px, 0);
+  }
+}
+
+/* Marquee Tech Stack: berjalan pelan, berhenti saat hover, disentuh, atau difokus. */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+
+.marquee:hover .marquee-track,
+.marquee:active .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Kartu proyek miring 3D mengikuti pointer (variabel diisi modul adegan). */
+@media (hover: hover) and (pointer: fine) {
+  [data-tilt] {
+    transform: perspective(900px) rotateX(var(--tilt-x, 0deg))
+      rotateY(var(--tilt-y, 0deg));
+    transition: transform 0.2s var(--ease-standard);
+  }
+}
+
+/* Kursor pengikut: hanya pointer halus. */
+.cursor-follower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border: 1px solid var(--color-accent-3);
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s var(--ease-standard);
+}
+
+.cursor-follower.is-visible {
+  opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: auto;
+  }
+  [data-tilt] {
+    transform: none;
+  }
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
   }
 }

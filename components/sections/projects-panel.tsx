@@ -48,7 +48,10 @@ export const ProjectsPanel = ({ cards, labels }: ProjectsPanelProps) => {
       {visible.length === 0 ? (
         <p className="text-center text-muted">{labels.empty}</p>
       ) : (
-        <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ul
+          data-reveal
+          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {visible.map(({ slug, card }) => (
             <li key={slug}>{card}</li>
           ))}

@@ -112,7 +112,10 @@ export const Portfolio = async () => {
     );
 
   const achievementsPanel = (
-    <ul className="mx-auto grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2">
+    <ul
+      data-reveal
+      className="mx-auto grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2"
+    >
       {background.achievements.map((achievement, index) => (
         <li
           key={index}
@@ -135,8 +138,38 @@ export const Portfolio = async () => {
     </ul>
   );
 
+  // Semua item keahlian tanpa duplikat, untuk marquee dekoratif di atas grid.
+  const allTech = [
+    ...new Set(background.skills.flatMap((skill) => skill.items)),
+  ];
+  const marqueeRow = (hidden: boolean) => (
+    <ul
+      aria-hidden={hidden || undefined}
+      className="flex shrink-0 items-center gap-8 pr-8"
+    >
+      {allTech.map((item) => (
+        <li
+          key={item}
+          className="flex items-center gap-2 text-sm whitespace-nowrap text-muted"
+        >
+          <TechIcon name={item} className="size-5" />
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+
   const techStackPanel = (
     <div className="flex flex-col gap-10">
+      <div
+        aria-hidden="true"
+        className="marquee overflow-hidden rounded-card glass py-4"
+      >
+        <div className="marquee-track">
+          {marqueeRow(false)}
+          {marqueeRow(true)}
+        </div>
+      </div>
       {background.skills.map((skill) => {
         const CategoryIcon = categoryIcons[skill.icon] ?? Award;
         return (
@@ -148,7 +181,7 @@ export const Portfolio = async () => {
               />
               {pick(skill.category, locale)}
             </h3>
-            <ul className="grid grid-cols-4 gap-3 lg:grid-cols-6">
+            <ul data-reveal className="grid grid-cols-4 gap-3 lg:grid-cols-6">
               {skill.items.map((item) => (
                 <li
                   key={item}

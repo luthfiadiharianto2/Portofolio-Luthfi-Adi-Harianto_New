@@ -34,7 +34,10 @@ export const Contact = async () => {
         subtitle={t("subtitle")}
       />
 
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+      <div
+        data-reveal
+        className="grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]"
+      >
         <div className="rounded-card glass p-6 sm:p-8">
           <h3 className="font-heading text-xl font-semibold">
             {t("infoTitle")}

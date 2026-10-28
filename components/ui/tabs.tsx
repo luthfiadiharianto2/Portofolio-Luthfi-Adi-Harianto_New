@@ -3,10 +3,12 @@
 import {
   type KeyboardEvent,
   type ReactNode,
+  useEffect,
   useId,
   useRef,
   useState,
 } from "react";
+import { animate } from "motion/mini";
 import { cn } from "@/lib/utils";
 
 type Tab = { id: string; label: string; panel: ReactNode };
@@ -17,6 +19,26 @@ export const Tabs = ({ label, tabs }: { label: string; tabs: Tab[] }) => {
   const baseId = useId();
   const [active, setActive] = useState(0);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
+  const panels = useRef<(HTMLDivElement | null)[]>([]);
+  const previous = useRef(0);
+
+  // Panel baru bergeser masuk dari arah tab yang dipilih (motion, hanya transform/opacity).
+  useEffect(() => {
+    const from = previous.current;
+    previous.current = active;
+    const panel = panels.current[active];
+    if (!panel || from === active) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const offset = active > from ? 24 : -24;
+    animate(
+      panel,
+      {
+        opacity: [0, 1],
+        transform: [`translateX(${offset}px)`, "translateX(0)"],
+      },
+      { duration: 0.35, ease: [0.4, 0, 0.2, 1] },
+    );
+  }, [active]);
 
   const focusTab = (index: number) => {
     const next = (index + tabs.length) % tabs.length;
@@ -76,6 +98,9 @@ export const Tabs = ({ label, tabs }: { label: string; tabs: Tab[] }) => {
       {tabs.map((tab, index) => (
         <div
           key={tab.id}
+          ref={(element) => {
+            panels.current[index] = element;
+          }}
           role="tabpanel"
           id={`${baseId}-panel-${tab.id}`}
           aria-labelledby={`${baseId}-tab-${tab.id}`}

@@ -116,6 +116,21 @@ const MusicToggle = ({ src }: { src: string }) => {
 export const Navbar = ({ musicUrl }: { musicUrl?: string }) => {
   const t = useTranslations("Nav");
   const active = useActiveSection();
+  const list = useRef<HTMLUListElement>(null);
+  const pill = useRef<HTMLSpanElement>(null);
+
+  // Pil indikator bergeser ke menu aktif. Hanya transform yang dianimasikan;
+  // lebar diatur langsung tanpa transisi.
+  useEffect(() => {
+    const target = list.current?.querySelector<HTMLElement>(
+      `[data-section="${active}"]`,
+    );
+    const indicator = pill.current;
+    if (!target || !indicator) return;
+    indicator.style.width = `${target.offsetWidth}px`;
+    indicator.style.transform = `translateX(${target.offsetLeft}px)`;
+    indicator.style.opacity = "1";
+  }, [active]);
   const sheet = useRef<HTMLDialogElement>(null);
 
   const links = SECTIONS.map((id) => ({ id, label: t(id) }));
@@ -127,17 +142,21 @@ export const Navbar = ({ musicUrl }: { musicUrl?: string }) => {
         aria-label={t("label")}
         className="pointer-events-auto flex items-center gap-1 rounded-full glass-strong p-1 shadow-lg shadow-shadow"
       >
-        <ul className="hidden items-center gap-1 md:flex">
+        <ul ref={list} className="relative hidden items-center gap-1 md:flex">
+          <span
+            ref={pill}
+            aria-hidden="true"
+            className="absolute inset-y-0 left-0 rounded-full bg-glass-border opacity-0 transition-transform duration-300 ease-(--ease-standard)"
+          />
           {links.map(({ id, label }) => (
             <li key={id}>
               <Link
                 href={{ pathname: "/", hash: id }}
+                data-section={id}
                 aria-current={active === id ? "location" : undefined}
                 className={cn(
-                  "inline-flex min-h-(--spacing-touch) items-center rounded-full px-4 text-sm font-medium transition-colors duration-200",
-                  active === id
-                    ? "bg-glass-border text-fg"
-                    : "text-muted hover:text-fg",
+                  "relative inline-flex min-h-(--spacing-touch) items-center rounded-full px-4 text-sm font-medium transition-colors duration-200",
+                  active === id ? "text-fg" : "text-muted hover:text-fg",
                 )}
               >
                 {label}

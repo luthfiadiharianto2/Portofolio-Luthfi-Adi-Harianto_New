@@ -64,10 +64,18 @@ export const About = async () => {
       aria-labelledby="about-title"
       className="mx-auto max-w-6xl px-gutter py-section"
     >
-      <SectionHeading id="about-title" label={t("label")} title={t("title")} />
+      <SectionHeading
+        id="about-title"
+        label={t("label")}
+        title={t("title")}
+        glitch
+      />
 
       <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-14">
-        <div className="mx-auto w-full max-w-sm lg:sticky lg:top-28">
+        <div
+          data-reveal
+          className="mx-auto w-full max-w-sm lg:sticky lg:top-28"
+        >
           <div className="relative rounded-card glass p-3 glow">
             <div
               aria-hidden="true"
@@ -86,7 +94,7 @@ export const About = async () => {
         </div>
 
         <div className="flex min-w-0 flex-col gap-10">
-          <div className="flex flex-col gap-4 text-lead text-muted">
+          <div data-reveal className="flex flex-col gap-4 text-lead text-muted">
             <p>
               {t.rich("p1", {
                 strong: (chunks) => (
@@ -97,7 +105,7 @@ export const About = async () => {
             <p>{t("p2")}</p>
           </div>
 
-          <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <dl data-reveal className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {info.map(({ label, value }) => (
               <div key={label} className="rounded-card glass p-4">
                 <dt className="text-xs font-semibold tracking-wider text-muted uppercase">
@@ -108,10 +116,13 @@ export const About = async () => {
             ))}
           </dl>
 
-          <ul className="grid grid-cols-3 gap-3">
+          <ul data-reveal className="grid grid-cols-3 gap-3">
             {stats.map(({ label, value }) => (
               <li key={label} className="rounded-card glass p-4 text-center">
-                <p className="text-gradient-primary font-heading text-3xl font-bold sm:text-4xl">
+                <p
+                  data-count={value}
+                  className="text-gradient-primary font-heading text-3xl font-bold tabular-nums sm:text-4xl"
+                >
                   {value}
                 </p>
                 <p className="mt-1 text-xs text-muted sm:text-sm">{label}</p>
@@ -123,7 +134,10 @@ export const About = async () => {
             <h3 className="mb-5 text-xl font-semibold">
               {t("experienceTitle")}
             </h3>
-            <ol className="relative ml-2 flex flex-col gap-6 border-l border-glass-border pl-6">
+            <ol
+              data-reveal
+              className="relative ml-2 flex flex-col gap-6 border-l border-glass-border pl-6"
+            >
               {background.experiences.map((experience) => (
                 <li key={pick(experience.title, "en")} className="relative">
                   <span
@@ -152,7 +166,7 @@ export const About = async () => {
               <h3 className="mb-4 text-xl font-semibold">
                 {t("educationTitle")}
               </h3>
-              <ul className="flex flex-col gap-3">
+              <ul data-reveal className="flex flex-col gap-3">
                 {background.education.map((item) => (
                   <li key={item.institution} className="rounded-card glass p-4">
                     <p className="text-sm font-medium text-accent-3">
@@ -170,7 +184,7 @@ export const About = async () => {
               <h3 className="mb-4 text-xl font-semibold">
                 {t("organizationsTitle")}
               </h3>
-              <ul className="flex flex-col gap-3">
+              <ul data-reveal className="flex flex-col gap-3">
                 {background.organizations.map((item) => (
                   <li
                     key={item.organization}

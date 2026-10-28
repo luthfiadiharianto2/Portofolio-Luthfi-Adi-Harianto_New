@@ -53,7 +53,9 @@ test.describe("beranda", () => {
     await expect(
       page
         .getByRole("tabpanel", { name: "Tech Stack" })
-        .getByText("Scikit-learn"),
+        // Marquee dekoratif disembunyikan dari pembaca layar; yang dicari item grid.
+        .getByRole("listitem")
+        .filter({ hasText: "Scikit-learn" }),
     ).toBeVisible();
   });
 
