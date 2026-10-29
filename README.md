@@ -152,6 +152,10 @@ Nama, email, dan tautan sosial ada di `lib/site.ts`. Teks antarmuka ada di
 
 Variabel `NEXT_PUBLIC_*` ditanamkan saat build, jadi setiap mengubahnya perlu deploy ulang.
 
+Fungsi server dijalankan di region Singapura (`sin1`, diatur di `vercel.json`), dekat
+dengan database Supabase dan pengunjung dari Indonesia. Bila proyek Supabase pindah region,
+sesuaikan nilai ini.
+
 ## Fitur teknis
 
 - **SEO**: metadata per bahasa, canonical dan hreflang (`id`, `en`, `x-default`), gambar
