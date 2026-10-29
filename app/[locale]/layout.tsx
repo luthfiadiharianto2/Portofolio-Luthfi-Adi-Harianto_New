@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Footer } from "@/components/sections/footer";
@@ -9,19 +8,8 @@ import { TechIconSprite } from "@/components/icons/tech-icon";
 import { Starfield } from "@/components/three/starfield";
 import { routing } from "@/i18n/routing";
 import { publicEnv } from "@/lib/env";
+import { fontVariables } from "../fonts";
 import "../globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-space-grotesk",
-});
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -42,10 +30,7 @@ export default async function LocaleLayout({
   const t = await getTranslations("Common");
 
   return (
-    <html
-      lang={locale}
-      className={`${inter.variable} ${spaceGrotesk.variable}`}
-    >
+    <html lang={locale} className={fontVariables}>
       <body>
         <TechIconSprite />
         <a

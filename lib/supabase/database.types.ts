@@ -399,6 +399,7 @@ export type Database = {
     };
     Functions: {
       increment_visit: { Args: never; Returns: number };
+      is_admin: { Args: never; Returns: boolean };
     };
     Enums: {
       project_category: "uiux" | "web" | "data" | "qa";

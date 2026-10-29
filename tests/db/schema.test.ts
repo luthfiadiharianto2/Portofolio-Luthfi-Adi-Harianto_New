@@ -315,6 +315,24 @@ describe("akses pengunjung (anon)", () => {
 });
 
 describe("akses pengguna login", () => {
+  it("public.is_admin() hanya benar untuk admin yang bukan anonim", async () => {
+    const check = (claims: Claims) =>
+      as("authenticated", claims, (q) =>
+        q<{ is_admin: boolean }>("select public.is_admin() as is_admin"),
+      );
+    expect(await check(admin)).toEqual([{ is_admin: true }]);
+    expect(await check(visitor)).toEqual([{ is_admin: false }]);
+    expect(await check({ ...admin, is_anonymous: true })).toEqual([
+      { is_admin: false },
+    ]);
+  });
+
+  it("pengunjung tidak bisa memanggil public.is_admin()", async () => {
+    await expect(anon((q) => q("select public.is_admin()"))).rejects.toThrow(
+      /permission denied/,
+    );
+  });
+
   it("pengguna biasa tidak bisa mengubah proyek", async () => {
     const rows = await as("authenticated", visitor, (q) =>
       q("update public.projects set title = 'Diretas' returning id"),
