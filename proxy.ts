@@ -17,9 +17,11 @@ export default function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Halaman publik: semua path kecuali api, admin, file internal Next/Vercel, dan file
-    // bertitik (favicon.ico, dll.)
-    "/((?!api|admin|_next|_vercel|.*\..*).*)",
+    // Halaman publik: semua path kecuali api, admin, file internal Next/Vercel, ikon Apple
+    // (dibuat app/apple-icon.tsx, tanpa ekstensi), dan file bertitik (icon.svg,
+    // sitemap.xml, dll.). Backslash ganda: string JS "\\." menjadi regex "\." (titik
+    // harfiah), bukan "." (karakter apa saja).
+    "/((?!api|admin|_next|_vercel|apple-icon|.*\\..*).*)",
     "/admin",
     "/admin/:path*",
   ],

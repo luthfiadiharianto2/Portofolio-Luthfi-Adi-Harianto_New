@@ -78,6 +78,24 @@ export const getProjects = async (): Promise<ProjectSummary[]> => {
   return z.array(projectSummarySchema).parse(rows ?? []);
 };
 
+/** Slug dan waktu ubah proyek terbit, untuk sitemap.xml. */
+export const getProjectSitemapEntries = async () => {
+  "use cache";
+  cacheLife("hours");
+  cacheTag(CACHE_TAGS.projects);
+
+  const rows = unwrap(
+    await createPublicClient()
+      .from("projects")
+      .select("slug, updated_at")
+      .eq("is_published", true)
+      .order("sort_order"),
+  );
+  return z
+    .array(z.object({ slug: z.string(), updated_at: z.string() }))
+    .parse(rows ?? []);
+};
+
 export const getProject = async (
   slug: string,
 ): Promise<ProjectDetail | null> => {

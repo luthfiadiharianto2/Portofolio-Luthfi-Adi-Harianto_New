@@ -8,6 +8,7 @@ import { TechIconSprite } from "@/components/icons/tech-icon";
 import { Starfield } from "@/components/three/starfield";
 import { routing } from "@/i18n/routing";
 import { publicEnv } from "@/lib/env";
+import { openGraphFor, SITE_NAME } from "@/lib/seo";
 import { fontVariables } from "../fonts";
 import "../globals.css";
 
@@ -15,11 +16,26 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+// Bawaan untuk semua halaman publik. Canonical dan hreflang ditulis per halaman
+// (lihat lib/seo.ts), agar halaman detail tidak mewarisi canonical beranda.
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("Metadata");
+  const [t, locale] = await Promise.all([
+    getTranslations("Metadata"),
+    getLocale(),
+  ]);
   return {
-    title: t("title"),
+    metadataBase: new URL(publicEnv.siteUrl),
+    title: { default: t("title"), template: `%s | ${SITE_NAME}` },
     description: t("description"),
+    applicationName: SITE_NAME,
+    authors: [{ name: SITE_NAME, url: publicEnv.siteUrl }],
+    creator: SITE_NAME,
+    openGraph: openGraphFor(locale, {
+      title: t("title"),
+      description: t("description"),
+      path: "",
+    }),
+    twitter: { card: "summary_large_image" },
   };
 }
 

@@ -15,6 +15,7 @@ import { buttonStyles } from "@/components/ui/button-styles";
 import { Link } from "@/i18n/navigation";
 import { getProject, getProjects } from "@/lib/data/content";
 import { pick } from "@/lib/localized";
+import { localeAlternates, openGraphFor, SITE_NAME } from "@/lib/seo";
 
 export async function generateStaticParams() {
   const projects = await getProjects();
@@ -27,9 +28,18 @@ export async function generateMetadata({
   const { slug } = await params;
   const [project, locale] = await Promise.all([getProject(slug), getLocale()]);
   if (!project) return {};
+  const description = pick(project.tagline, locale);
+  const path = `/projects/${project.slug}`;
   return {
-    title: `${project.title} | Luthfi Adi Harianto`,
-    description: pick(project.tagline, locale),
+    title: project.title,
+    description,
+    alternates: localeAlternates(locale, path),
+    openGraph: openGraphFor(locale, {
+      title: `${project.title} | ${SITE_NAME}`,
+      description,
+      path,
+      type: "article",
+    }),
   };
 }
 
