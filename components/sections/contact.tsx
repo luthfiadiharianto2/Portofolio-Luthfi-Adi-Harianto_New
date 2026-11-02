@@ -16,8 +16,8 @@ export const Contact = async () => {
   const links = getSocialLinks({ withEmail: true });
   const displayValue: Record<string, string> = {
     Email: socialLinks.emailLabel,
-    LinkedIn: "lutfi-adi-harianto",
-    GitHub: "LuthfiAdiHarianto",
+    LinkedIn: "luthfiadiharianto",
+    GitHub: "luthfiadiharianto2",
   };
 
   return (

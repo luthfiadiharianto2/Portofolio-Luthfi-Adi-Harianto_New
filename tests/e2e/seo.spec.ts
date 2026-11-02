@@ -69,7 +69,7 @@ test.describe("SEO", () => {
       "@type": "Person",
       name: "Luthfi Adi Harianto",
     });
-    expect(person.sameAs).toContain("https://github.com/LuthfiAdiHarianto");
+    expect(person.sameAs).toContain("https://github.com/luthfiadiharianto2");
     expect(person.knowsAbout.length).toBeGreaterThan(0);
   });
 

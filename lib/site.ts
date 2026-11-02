@@ -11,8 +11,8 @@ export const socialLinks: {
 } = {
   email: "mailto:luthfiadiharianto2@gmail.com",
   emailLabel: "luthfiadiharianto2@gmail.com",
-  linkedin: "https://linkedin.com/in/lutfi-adi-harianto",
-  github: "https://github.com/LuthfiAdiHarianto",
+  linkedin: "https://www.linkedin.com/in/luthfiadiharianto",
+  github: "https://github.com/luthfiadiharianto2",
   // TODO: username Instagram belum ada. Isi URL lengkapnya di sini; selama kosong,
   // tautan Instagram tidak ditampilkan (jangan diganti tautan generik).
   instagram: "",
