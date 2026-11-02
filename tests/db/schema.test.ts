@@ -84,7 +84,7 @@ describe("migrasi dan seed", () => {
     `);
     expect(counts.rows[0]).toEqual({
       projects: 9,
-      images: 38,
+      images: 55,
       steps: 47,
       skills: 5,
       experiences: 4,
