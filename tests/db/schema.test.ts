@@ -89,7 +89,7 @@ describe("migrasi dan seed", () => {
       skills: 5,
       experiences: 4,
       education: 2,
-      achievements: 5,
+      achievements: 12,
       organizations: 4,
       certificates: 0,
     });

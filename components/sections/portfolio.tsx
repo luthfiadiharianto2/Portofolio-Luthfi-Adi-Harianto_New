@@ -73,15 +73,21 @@ export const Portfolio = async () => {
             className="overflow-hidden rounded-card glass"
           >
             {certificate.image_path ? (
-              <div className="relative aspect-[4/3]">
+              <a
+                href={certificate.image_path}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative block aspect-[4/3] overflow-hidden"
+              >
                 <Image
                   src={certificate.image_path}
                   alt={pick(certificate.title, locale)}
                   fill
                   sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 92vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 ease-(--ease-standard) group-hover:scale-105"
                 />
-              </div>
+                <span className="sr-only">{common("openInNewTab")}</span>
+              </a>
             ) : null}
             <div className="p-5">
               <p className="font-heading text-lg font-semibold">
@@ -114,24 +120,40 @@ export const Portfolio = async () => {
   const achievementsPanel = (
     <ul
       data-reveal
-      className="mx-auto grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2"
+      className="mx-auto grid max-w-4xl grid-cols-1 items-start gap-4 sm:grid-cols-2"
     >
       {background.achievements.map((achievement, index) => (
-        <li
-          key={index}
-          className="flex items-start gap-4 rounded-card glass p-5"
-        >
-          <span
-            aria-hidden="true"
-            className="flex size-12 shrink-0 items-center justify-center rounded-full bg-glass-border text-2xl"
-          >
-            {achievement.icon}
-          </span>
-          <div>
-            <p className="font-semibold">{pick(achievement.title, locale)}</p>
-            <p className="mt-1 text-sm text-muted">
-              {pick(achievement.detail, locale)}
-            </p>
+        <li key={index} className="overflow-hidden rounded-card glass">
+          {achievement.image_path ? (
+            <a
+              href={achievement.image_path}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative block aspect-[10/7] overflow-hidden"
+            >
+              <Image
+                src={achievement.image_path}
+                alt={pick(achievement.title, locale)}
+                fill
+                sizes="(min-width: 640px) 28rem, 92vw"
+                className="object-cover transition-transform duration-500 ease-(--ease-standard) group-hover:scale-105"
+              />
+              <span className="sr-only">{common("openInNewTab")}</span>
+            </a>
+          ) : null}
+          <div className="flex items-start gap-4 p-5">
+            <span
+              aria-hidden="true"
+              className="flex size-12 shrink-0 items-center justify-center rounded-full bg-glass-border text-2xl"
+            >
+              {achievement.icon}
+            </span>
+            <div>
+              <p className="font-semibold">{pick(achievement.title, locale)}</p>
+              <p className="mt-1 text-sm text-muted">
+                {pick(achievement.detail, locale)}
+              </p>
+            </div>
           </div>
         </li>
       ))}

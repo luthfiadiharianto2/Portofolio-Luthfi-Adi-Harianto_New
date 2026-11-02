@@ -19,6 +19,7 @@ export type Database = {
           detail: Json;
           icon: string;
           id: string;
+          image_path: string | null;
           sort_order: number;
           title: Json;
         };
@@ -26,6 +27,7 @@ export type Database = {
           detail: Json;
           icon: string;
           id?: string;
+          image_path?: string | null;
           sort_order?: number;
           title: Json;
         };
@@ -33,6 +35,7 @@ export type Database = {
           detail?: Json;
           icon?: string;
           id?: string;
+          image_path?: string | null;
           sort_order?: number;
           title?: Json;
         };

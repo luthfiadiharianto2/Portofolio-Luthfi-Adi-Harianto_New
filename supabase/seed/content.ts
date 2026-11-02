@@ -1080,10 +1080,14 @@ const gemastikPreliminary = (year: number): Localized => ({
   en: `National Preliminary Round (Penyisihan) GEMASTIK ${year}`,
 });
 
+const odenTournament = (season: number): string =>
+  `Fast Tournament Online MLBB by Oden Esport Season ${season}`;
+
 export const achievements: {
   title: Localized;
   detail: Localized;
   icon: string;
+  image?: string;
 }[] = [
   {
     title: gemastikPreliminary(2025),
@@ -1110,6 +1114,87 @@ export const achievements: {
     },
     detail: same("ITASE 6.0"),
     icon: "🥇",
+  },
+  {
+    title: {
+      id: "Juara 3 Turnamen Mobile Legends Polsek Purwokerto Selatan 2026",
+      en: "3rd Place, Polsek Purwokerto Selatan Mobile Legends Tournament 2026",
+    },
+    detail: { id: "Tim TUP Arcanez", en: "Team TUP Arcanez" },
+    icon: "🥉",
+    image: "/images/achievements/ml-juara3-polsek-purwokerto-selatan-2026.webp",
+  },
+  {
+    title: {
+      id: "Juara 3 MLBB E-Sports Turnamen MITELA Festival",
+      en: "3rd Place, MLBB E-Sports Tournament at MITELA Festival",
+    },
+    detail: {
+      id: "Universitas Harapan Bangsa · Tim TUP Arcanez",
+      en: "Universitas Harapan Bangsa · Team TUP Arcanez",
+    },
+    icon: "🥉",
+    image: "/images/achievements/ml-juara3-mitela-uhb.webp",
+  },
+  {
+    title: {
+      id: `Juara 2 ${odenTournament(129)}`,
+      en: `2nd Place, ${odenTournament(129)}`,
+    },
+    detail: {
+      id: "8–9 Mei 2026 · Tim TUP Arcanez",
+      en: "May 8–9, 2026 · Team TUP Arcanez",
+    },
+    icon: "🥈",
+    image: "/images/achievements/ml-juara2-oden-s129-2026.png",
+  },
+  {
+    title: {
+      id: "Juara 3 Turnamen Mobile Legends BKR Store",
+      en: "3rd Place, BKR Store Mobile Legends Tournament",
+    },
+    detail: {
+      id: "15 April 2026 · Tim TUP Arcanez",
+      en: "April 15, 2026 · Team TUP Arcanez",
+    },
+    icon: "🥉",
+    image: "/images/achievements/ml-juara3-bkr-store-2026.webp",
+  },
+  {
+    title: {
+      id: `Juara 4 ${odenTournament(124)}`,
+      en: `4th Place, ${odenTournament(124)}`,
+    },
+    detail: {
+      id: "24–25 April 2026 · Tim TUP Arcanez",
+      en: "April 24–25, 2026 · Team TUP Arcanez",
+    },
+    icon: "🏅",
+    image: "/images/achievements/ml-juara4-oden-s124-2026.png",
+  },
+  {
+    title: {
+      id: `8 Besar ${odenTournament(129)}`,
+      en: `Top 8, ${odenTournament(129)}`,
+    },
+    detail: {
+      id: "8–9 Mei 2026 · Tim TUP Arcanez",
+      en: "May 8–9, 2026 · Team TUP Arcanez",
+    },
+    icon: "🏅",
+    image: "/images/achievements/ml-8besar-oden-s129-2026.webp",
+  },
+  {
+    title: {
+      id: `8 Besar ${odenTournament(125)}`,
+      en: `Top 8, ${odenTournament(125)}`,
+    },
+    detail: {
+      id: "29–30 April 2026 · Tim TUP Arcanez",
+      en: "April 29–30, 2026 · Team TUP Arcanez",
+    },
+    icon: "🏅",
+    image: "/images/achievements/ml-8besar-oden-s125-2026.webp",
   },
   {
     title: {

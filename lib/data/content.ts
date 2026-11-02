@@ -144,6 +144,7 @@ const achievementSchema = z.object({
   title: localizedSchema,
   detail: localizedSchema,
   icon: z.string(),
+  image_path: z.string().nullable(),
 });
 const organizationSchema = z.object({
   role: localizedSchema,
@@ -175,7 +176,10 @@ export const getBackground = async () => {
         .from("education")
         .select("institution, degree, period, icon")
         .order("sort_order"),
-      db.from("achievements").select("title, detail, icon").order("sort_order"),
+      db
+        .from("achievements")
+        .select("title, detail, icon, image_path")
+        .order("sort_order"),
       db
         .from("organizations")
         .select("role, organization, period, description")

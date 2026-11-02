@@ -146,12 +146,19 @@ insert into public.education (institution, degree, period, icon, sort_order) val
   ('Telkom University Purwokerto', '{"id":"S1 Teknik Informatika","en":"B.Sc. in Informatics"}'::jsonb, '{"id":"2023 — Sekarang","en":"2023 — Present"}'::jsonb, 'university', 1),
   ('SMA Negeri 2 Pati', '{"id":"Jurusan IPA","en":"Science Major"}'::jsonb, '{"id":"2020 — 2023","en":"2020 — 2023"}'::jsonb, 'school', 2);
 
-insert into public.achievements (title, detail, icon, sort_order) values
-  ('{"id":"Penyisihan Nasional GEMASTIK 2025","en":"National Preliminary Round (Penyisihan) GEMASTIK 2025"}'::jsonb, '{"id":"UI/UX Design (Leader)","en":"UI/UX Design (Leader)"}'::jsonb, '🏆', 1),
-  ('{"id":"Penyisihan Nasional GEMASTIK 2025","en":"National Preliminary Round (Penyisihan) GEMASTIK 2025"}'::jsonb, '{"id":"Karya Tulis Ilmiah (Anggota)","en":"Scientific Paper (Member)"}'::jsonb, '🏆', 2),
-  ('{"id":"Penyisihan Nasional GEMASTIK 2024","en":"National Preliminary Round (Penyisihan) GEMASTIK 2024"}'::jsonb, '{"id":"Data Mining (Leader)","en":"Data Mining (Leader)"}'::jsonb, '🏆', 3),
-  ('{"id":"Posisi 7 Lomba Nasional UI/UX Design","en":"7th Place National UI/UX Design"}'::jsonb, '{"id":"ITASE 6.0","en":"ITASE 6.0"}'::jsonb, '🥇', 4),
-  ('{"id":"Juara 2 Lomba Mobile Legend Internal","en":"2nd Place Internal Mobile Legend Tournament"}'::jsonb, '{"id":"SMA Negeri 2 Pati","en":"SMA Negeri 2 Pati"}'::jsonb, '🥈', 5);
+insert into public.achievements (title, detail, icon, image_path, sort_order) values
+  ('{"id":"Penyisihan Nasional GEMASTIK 2025","en":"National Preliminary Round (Penyisihan) GEMASTIK 2025"}'::jsonb, '{"id":"UI/UX Design (Leader)","en":"UI/UX Design (Leader)"}'::jsonb, '🏆', null, 1),
+  ('{"id":"Penyisihan Nasional GEMASTIK 2025","en":"National Preliminary Round (Penyisihan) GEMASTIK 2025"}'::jsonb, '{"id":"Karya Tulis Ilmiah (Anggota)","en":"Scientific Paper (Member)"}'::jsonb, '🏆', null, 2),
+  ('{"id":"Penyisihan Nasional GEMASTIK 2024","en":"National Preliminary Round (Penyisihan) GEMASTIK 2024"}'::jsonb, '{"id":"Data Mining (Leader)","en":"Data Mining (Leader)"}'::jsonb, '🏆', null, 3),
+  ('{"id":"Posisi 7 Lomba Nasional UI/UX Design","en":"7th Place National UI/UX Design"}'::jsonb, '{"id":"ITASE 6.0","en":"ITASE 6.0"}'::jsonb, '🥇', null, 4),
+  ('{"id":"Juara 3 Turnamen Mobile Legends Polsek Purwokerto Selatan 2026","en":"3rd Place, Polsek Purwokerto Selatan Mobile Legends Tournament 2026"}'::jsonb, '{"id":"Tim TUP Arcanez","en":"Team TUP Arcanez"}'::jsonb, '🥉', '/images/achievements/ml-juara3-polsek-purwokerto-selatan-2026.webp', 5),
+  ('{"id":"Juara 3 MLBB E-Sports Turnamen MITELA Festival","en":"3rd Place, MLBB E-Sports Tournament at MITELA Festival"}'::jsonb, '{"id":"Universitas Harapan Bangsa · Tim TUP Arcanez","en":"Universitas Harapan Bangsa · Team TUP Arcanez"}'::jsonb, '🥉', '/images/achievements/ml-juara3-mitela-uhb.webp', 6),
+  ('{"id":"Juara 2 Fast Tournament Online MLBB by Oden Esport Season 129","en":"2nd Place, Fast Tournament Online MLBB by Oden Esport Season 129"}'::jsonb, '{"id":"8–9 Mei 2026 · Tim TUP Arcanez","en":"May 8–9, 2026 · Team TUP Arcanez"}'::jsonb, '🥈', '/images/achievements/ml-juara2-oden-s129-2026.png', 7),
+  ('{"id":"Juara 3 Turnamen Mobile Legends BKR Store","en":"3rd Place, BKR Store Mobile Legends Tournament"}'::jsonb, '{"id":"15 April 2026 · Tim TUP Arcanez","en":"April 15, 2026 · Team TUP Arcanez"}'::jsonb, '🥉', '/images/achievements/ml-juara3-bkr-store-2026.webp', 8),
+  ('{"id":"Juara 4 Fast Tournament Online MLBB by Oden Esport Season 124","en":"4th Place, Fast Tournament Online MLBB by Oden Esport Season 124"}'::jsonb, '{"id":"24–25 April 2026 · Tim TUP Arcanez","en":"April 24–25, 2026 · Team TUP Arcanez"}'::jsonb, '🏅', '/images/achievements/ml-juara4-oden-s124-2026.png', 9),
+  ('{"id":"8 Besar Fast Tournament Online MLBB by Oden Esport Season 129","en":"Top 8, Fast Tournament Online MLBB by Oden Esport Season 129"}'::jsonb, '{"id":"8–9 Mei 2026 · Tim TUP Arcanez","en":"May 8–9, 2026 · Team TUP Arcanez"}'::jsonb, '🏅', '/images/achievements/ml-8besar-oden-s129-2026.webp', 10),
+  ('{"id":"8 Besar Fast Tournament Online MLBB by Oden Esport Season 125","en":"Top 8, Fast Tournament Online MLBB by Oden Esport Season 125"}'::jsonb, '{"id":"29–30 April 2026 · Tim TUP Arcanez","en":"April 29–30, 2026 · Team TUP Arcanez"}'::jsonb, '🏅', '/images/achievements/ml-8besar-oden-s125-2026.webp', 11),
+  ('{"id":"Juara 2 Lomba Mobile Legend Internal","en":"2nd Place Internal Mobile Legend Tournament"}'::jsonb, '{"id":"SMA Negeri 2 Pati","en":"SMA Negeri 2 Pati"}'::jsonb, '🥈', null, 12);
 
 insert into public.organizations (role, organization, period, description, sort_order) values
   ('{"id":"Coach Mobile Legend","en":"Mobile Legend Coach"}'::jsonb, 'Tel U Purwokerto Esport', '{"id":"Des 2025 — Des 2026","en":"Dec 2025 — Dec 2026"}'::jsonb, '{"id":"Melatih strategi tim, koordinasi gameplay, dan komunikasi dalam tim kompetitif.","en":"Coached team strategy, gameplay coordination, and communication in competitive teams."}'::jsonb, 1),

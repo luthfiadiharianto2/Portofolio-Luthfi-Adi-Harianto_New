@@ -143,11 +143,12 @@ export const buildSeedSql = () =>
     "",
     insert(
       "achievements",
-      ["title", "detail", "icon", "sort_order"],
+      ["title", "detail", "icon", "image_path", "sort_order"],
       achievements.map((a, index) => [
         json(a.title),
         json(a.detail),
         text(a.icon),
+        a.image ? text(a.image) : "null",
         String(index + 1),
       ]),
     ),
