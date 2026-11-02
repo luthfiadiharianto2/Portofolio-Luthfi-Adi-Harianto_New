@@ -31,9 +31,17 @@ import {
   siMysql,
   siPandas,
   siPhp,
+  siPostgresql,
   siPython,
+  siReact,
   siScikitlearn,
   siShopee,
+  siSupabase,
+  siTailwindcss,
+  siThreedotjs,
+  siTypescript,
+  siVercel,
+  siVite,
   type SimpleIcon,
 } from "simple-icons";
 import { cn } from "@/lib/utils";
@@ -52,9 +60,17 @@ const brandIcons: Record<string, SimpleIcon> = {
   MySQL: siMysql,
   Pandas: siPandas,
   PHP: siPhp,
+  PostgreSQL: siPostgresql,
   Python: siPython,
+  React: siReact,
   "Scikit-learn": siScikitlearn,
   "Shopee API": siShopee,
+  Supabase: siSupabase,
+  "Tailwind CSS": siTailwindcss,
+  "Three.js": siThreedotjs,
+  TypeScript: siTypescript,
+  Vercel: siVercel,
+  Vite: siVite,
 };
 
 const genericIcons: Record<string, LucideIcon> = {
