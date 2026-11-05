@@ -1,4 +1,5 @@
 import { expect, type Page, test } from "@playwright/test";
+import { projects as seedProjects } from "../../supabase/seed/content";
 
 const expectNoHorizontalScroll = async (page: Page) => {
   const overflow = await page.evaluate(
@@ -132,13 +133,13 @@ test.describe("detail proyek", () => {
       page.getByText("Project Manager sekaligus Backend Developer"),
     ).toBeVisible();
 
-    await page.goto("/id/projects/borrowit");
-    await expect(
-      page.getByRole("heading", { level: 2, name: "Hasil" }),
-    ).toBeVisible();
-    await expect(
-      page.getByText("UI/UX Designer: bertanggung jawab penuh"),
-    ).toBeVisible();
+    // Setiap proyek yang punya studi kasus di seed menampilkan "Peran Saya"-nya.
+    for (const project of seedProjects.filter((item) => item.caseStudy)) {
+      await page.goto(`/id/projects/${project.slug}`);
+      await expect(
+        page.getByText(project.caseStudy!.myRole.id, { exact: true }),
+      ).toBeVisible();
+    }
 
     await page.goto("/en/projects/ekost");
     await expect(
@@ -148,11 +149,14 @@ test.describe("detail proyek", () => {
       page.getByText("Project Manager and Backend Developer"),
     ).toBeVisible();
 
-    // Proyek tanpa studi kasus tidak menampilkan bagian kosong.
-    await page.goto("/id/projects/melodean");
-    await expect(
-      page.getByRole("heading", { level: 2, name: "Masalah" }),
-    ).toHaveCount(0);
+    // Proyek tanpa studi kasus (bila masih ada) tidak menampilkan bagian kosong.
+    const withoutCaseStudy = seedProjects.find((item) => !item.caseStudy);
+    if (withoutCaseStudy) {
+      await page.goto(`/id/projects/${withoutCaseStudy.slug}`);
+      await expect(
+        page.getByRole("heading", { level: 2, name: "Masalah" }),
+      ).toHaveCount(0);
+    }
   });
 
   test("menampilkan isi lengkap dan bisa kembali", async ({ page }) => {

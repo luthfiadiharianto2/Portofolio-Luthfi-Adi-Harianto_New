@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import type { PGlite } from "@electric-sql/pglite";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { createLocalDb } from "@/supabase/local-db";
+import { projects as seedProjects } from "@/supabase/seed/content";
 import { buildSeedSql } from "@/supabase/seed/generate";
 
 type Role = "anon" | "authenticated" | "service_role";
@@ -161,25 +162,28 @@ describe("migrasi dan seed", () => {
   it("studi kasus proyek opsional, tetapi wajib dwibahasa bila diisi", async () => {
     const rows = await anon((q) =>
       q<{ slug: string; problem: unknown; my_role: unknown; outcome: unknown }>(
-        "select slug, problem, my_role, outcome from public.projects where slug in ('borrowit', 'ekost', 'melodean') order by slug",
+        "select slug, problem, my_role, outcome from public.projects",
       ),
     );
-    for (const slug of ["borrowit", "ekost"]) {
-      const row = rows.find((item) => item.slug === slug);
-      expect(row?.problem).toMatchObject({ id: expect.any(String) });
-      expect(row?.my_role).toMatchObject({ en: expect.any(String) });
-      expect(row?.outcome).toMatchObject({ id: expect.any(String) });
+    // Seed menentukan proyek mana yang punya studi kasus.
+    for (const project of seedProjects) {
+      const row = rows.find((item) => item.slug === project.slug);
+      expect(row).toMatchObject(
+        project.caseStudy
+          ? {
+              problem: project.caseStudy.problem,
+              my_role: project.caseStudy.myRole,
+              outcome: project.caseStudy.outcome,
+            }
+          : { problem: null, my_role: null, outcome: null },
+      );
     }
-    expect(rows.find((item) => item.slug === "melodean")).toMatchObject({
-      problem: null,
-      my_role: null,
-      outcome: null,
-    });
 
     await expect(
       as("service_role", {}, (q) =>
-        q("update public.projects set outcome = $1 where slug = 'melodean'", [
+        q("update public.projects set outcome = $1 where slug = $2", [
           JSON.stringify({ id: "Hanya Indonesia" }),
+          seedProjects[0]!.slug,
         ]),
       ),
     ).rejects.toThrow(/localized_text/);

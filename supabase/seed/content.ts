@@ -371,29 +371,29 @@ export const projects: SeedProject[] = [
           en: "User Research & Persona",
         },
         description: {
-          id: "Melakukan riset terhadap siswa SMA untuk memahami motivasi belajar dan preferensi penggunaan aplikasi e-learning, lalu menyusun user persona.",
-          en: "Researching high school students to understand learning motivation and e-learning app preferences, then creating user personas.",
+          id: "Sebagai project manager, memimpin riset pengguna dan menyusun persona untuk memahami motivasi belajar serta preferensi aplikasi siswa SMA.",
+          en: "As project manager, led user research and built personas to understand high school students' learning motivation and app preferences.",
         },
       },
       {
         title: { id: "Strategi Gamifikasi", en: "Gamification Strategy" },
         description: {
-          id: "Merancang sistem gamifikasi meliputi poin, badge, dan leaderboard untuk meningkatkan engagement dan motivasi belajar siswa.",
-          en: "Designing gamification system including points, badges, and leaderboard to increase student engagement and motivation.",
+          id: "Merancang strategi gamifikasi: sistem poin, badge, dan leaderboard yang mendorong siswa untuk tetap aktif belajar.",
+          en: "Designed the gamification strategy: a system of points, badges, and leaderboards that keeps students actively learning.",
         },
       },
       {
         title: { id: "Desain UI/UX", en: "UI/UX Design" },
         description: {
-          id: "Mendesain antarmuka yang menarik dan ramah pengguna di Figma dengan pendekatan playful namun tetap fungsional untuk konteks edukasi.",
-          en: "Designing attractive and user-friendly interfaces in Figma with a playful yet functional approach for educational context.",
+          id: "Mendesain UI/UX di Figma dengan pendekatan yang playful namun tetap fungsional untuk kebutuhan belajar.",
+          en: "Designed the UI/UX in Figma with a playful yet functional approach for learning needs.",
         },
       },
       {
         title: { id: "Prototyping Interaktif", en: "Interactive Prototyping" },
         description: {
-          id: "Membangun prototype interaktif dengan micro-interactions, animasi transisi, dan simulasi fitur absensi QR scanning.",
-          en: "Building interactive prototype with micro-interactions, transition animations, and QR scanning simulation.",
+          id: "Membangun prototipe interaktif dengan micro-interaction, animasi transisi, dan simulasi fitur absensi lewat QR scan.",
+          en: "Built an interactive prototype with micro-interactions, transition animations, and a simulated QR scan attendance feature.",
         },
       },
       {
@@ -402,11 +402,25 @@ export const projects: SeedProject[] = [
           en: "Usability Testing & Iteration",
         },
         description: {
-          id: "Melakukan usability testing dengan siswa dan guru, mengumpulkan feedback, serta melakukan iterasi desain berdasarkan temuan testing.",
-          en: "Conducting usability testing with students and teachers, collecting feedback, and iterating designs based on findings.",
+          id: "Mengoordinasikan usability testing bersama siswa dan guru, lalu menerjemahkan hasil feedback ke iterasi desain.",
+          en: "Coordinated usability testing with students and teachers, then turned their feedback into design iterations.",
         },
       },
     ],
+    caseStudy: {
+      problem: {
+        id: "Platform e-learning yang digunakan siswa SMA kebanyakan masih berupa daftar materi dan tugas yang monoton, tanpa elemen yang membuat siswa termotivasi untuk belajar secara konsisten. Akibatnya minat belajar mudah menurun dan absensi pun masih dilakukan secara manual. Melodean dirancang untuk mengubah pengalaman belajar digital siswa SMA jadi lebih interaktif dan menyenangkan lewat pendekatan gamifikasi, tanpa mengurangi fungsi utamanya sebagai platform belajar.",
+        en: "The e-learning platforms high school students use are mostly still monotonous lists of materials and assignments, with nothing that motivates students to study consistently. As a result, interest in learning drops easily, and attendance is still taken manually. Melodean was designed to make high school students' digital learning more interactive and enjoyable through gamification, without compromising its core function as a learning platform.",
+      },
+      myRole: {
+        id: "UI/UX Designer sekaligus Project Manager: memimpin riset dan koordinasi tim dari awal hingga pengujian, sekaligus merancang langsung desain antarmuka dan sistem gamifikasinya.",
+        en: "UI/UX Designer and Project Manager: led research and team coordination from the start through testing, while personally designing the interface and its gamification system.",
+      },
+      outcome: {
+        id: "Desain aplikasi belajar yang menggabungkan modul pembelajaran berbasis mata pelajaran dengan sistem gamifikasi poin, badge, dan leaderboard untuk mendorong motivasi belajar siswa, dilengkapi fitur absensi lewat QR scan yang membuat proses administratif jadi lebih praktis bagi siswa dan guru.",
+        en: "A learning app design that combines subject-based learning modules with a gamification system of points, badges, and leaderboards to motivate students, plus QR scan attendance that makes administrative tasks more practical for students and teachers.",
+      },
+    },
   },
   {
     slug: "nusantara",
