@@ -132,6 +132,14 @@ test.describe("detail proyek", () => {
       page.getByText("Project Manager sekaligus Backend Developer"),
     ).toBeVisible();
 
+    await page.goto("/id/projects/borrowit");
+    await expect(
+      page.getByRole("heading", { level: 2, name: "Hasil" }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("UI/UX Designer: bertanggung jawab penuh"),
+    ).toBeVisible();
+
     await page.goto("/en/projects/ekost");
     await expect(
       page.getByRole("heading", { level: 2, name: "My Role" }),
@@ -141,7 +149,7 @@ test.describe("detail proyek", () => {
     ).toBeVisible();
 
     // Proyek tanpa studi kasus tidak menampilkan bagian kosong.
-    await page.goto("/id/projects/borrowit");
+    await page.goto("/id/projects/melodean");
     await expect(
       page.getByRole("heading", { level: 2, name: "Masalah" }),
     ).toHaveCount(0);

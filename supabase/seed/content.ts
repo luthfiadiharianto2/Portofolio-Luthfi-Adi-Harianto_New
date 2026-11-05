@@ -141,25 +141,25 @@ export const projects: SeedProject[] = [
           en: "User Research & Problem Identification",
         },
         description: {
-          id: "Melakukan riset terhadap mahasiswa untuk memahami permasalahan peminjaman barang di lingkungan kampus, termasuk survei kebutuhan dan analisis pain points.",
-          en: "Researching students to understand item lending issues on campus, including needs surveys and pain point analysis.",
+          id: "Melakukan riset pengguna lewat survei kebutuhan mahasiswa dan analisis pain point seputar kebiasaan pinjam-meminjam barang di kampus.",
+          en: "Conducted user research through a student needs survey and an analysis of pain points around borrowing and lending habits on campus.",
         },
       },
       {
         title: { id: "Arsitektur Informasi", en: "Information Architecture" },
         description: {
-          id: "Menyusun struktur informasi aplikasi meliputi sitemap, user flow peminjaman dan pengembalian, serta hierarki navigasi.",
-          en: "Structuring the app including sitemap, lending/return user flows, and navigation hierarchy.",
+          id: "Menyusun information architecture: sitemap, user flow peminjaman & pengembalian barang, serta struktur navigasi aplikasi.",
+          en: "Structured the information architecture: sitemap, user flows for borrowing and returning items, and the app's navigation structure.",
         },
       },
       {
         title: {
-          id: "Wireframing & Prototipe Awal",
-          en: "Wireframing & Early Prototype",
+          id: "Wireframing",
+          en: "Wireframing",
         },
         description: {
-          id: "Membuat wireframe untuk setiap halaman utama seperti home, search, detail barang, dan activity tracking sebagai kerangka awal desain.",
-          en: "Creating wireframes for main pages: home, search, item detail, and activity tracking.",
+          id: "Membuat wireframe untuk halaman utama, pencarian, detail barang, dan pelacakan aktivitas peminjaman.",
+          en: "Created wireframes for the home, search, item detail, and borrowing activity tracking pages.",
         },
       },
       {
@@ -168,8 +168,8 @@ export const projects: SeedProject[] = [
           en: "UI Design & Design System",
         },
         description: {
-          id: "Mendesain antarmuka high-fidelity di Figma dengan design system yang konsisten meliputi color palette, typography, spacing, dan komponen reusable.",
-          en: "Designing high-fidelity interfaces in Figma with consistent design system including color palette, typography, and reusable components.",
+          id: "Merancang UI dan design system di Figma — palet warna, tipografi, spacing, dan komponen yang konsisten dan reusable.",
+          en: "Designed the UI and design system in Figma: color palette, typography, spacing, and consistent, reusable components.",
         },
       },
       {
@@ -178,11 +178,25 @@ export const projects: SeedProject[] = [
           en: "Prototyping & User Testing",
         },
         description: {
-          id: "Membangun interactive prototype dan melakukan usability testing dengan target pengguna untuk validasi alur serta perbaikan UI/UX berdasarkan feedback.",
-          en: "Building interactive prototype and conducting usability testing with target users for validation and UI/UX improvements.",
+          id: "Membangun prototipe interaktif, melakukan usability testing dengan calon pengguna, dan menyempurnakan UI/UX berdasarkan hasil feedback.",
+          en: "Built an interactive prototype, ran usability testing with prospective users, and refined the UI/UX based on their feedback.",
         },
       },
     ],
+    caseStudy: {
+      problem: {
+        id: "Mahasiswa Telkom University Purwokerto yang ingin meminjam atau meminjamkan barang di kampus biasanya masih mengandalkan cara informal: bertanya lewat grup WhatsApp, mulut ke mulut, atau papan pengumuman, tanpa ada cara untuk memverifikasi siapa peminjamnya atau melacak status barang yang dipinjam. Tidak ada rasa aman karena identitas peminjam tidak jelas, dan proses mencari barang yang dibutuhkan jadi lambat dan tidak terstruktur. BorrowIt dirancang untuk menjawab masalah ini lewat platform mobile yang membuat peminjaman barang antar mahasiswa jadi lebih aman, cepat, dan terpercaya.",
+        en: "Students at Telkom University Purwokerto who want to borrow or lend items on campus usually still rely on informal channels: asking in WhatsApp groups, word of mouth, or notice boards, with no way to verify who the borrower is or to track the status of borrowed items. There is little sense of security because the borrower's identity is unclear, and finding the items people need is slow and unstructured. BorrowIt was designed to solve this with a mobile platform that makes lending items between students safer, faster, and more trustworthy.",
+      },
+      myRole: {
+        id: "UI/UX Designer: bertanggung jawab penuh dari riset pengguna, information architecture, wireframing, hingga UI design dan pengujian prototipe.",
+        en: "UI/UX Designer: fully responsible for everything from user research, information architecture, and wireframing to UI design and prototype testing.",
+      },
+      outcome: {
+        id: "Desain aplikasi yang mengubah cara mahasiswa meminjam barang dari sekadar tanya di grup chat menjadi proses yang jelas dan terpercaya: verifikasi KTM untuk keamanan, kategori barang yang mudah dijelajahi, pencarian berbasis lokasi, chat real-time antar pengguna, dan sistem rating untuk membangun kepercayaan antar mahasiswa.",
+        en: "An app design that turns borrowing items from simply asking in a group chat into a clear and trustworthy process: student ID (KTM) verification for security, easy-to-browse item categories, location-based search, real-time chat between users, and a rating system that builds trust between students.",
+      },
+    },
   },
   {
     slug: "ekost",

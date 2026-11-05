@@ -161,22 +161,24 @@ describe("migrasi dan seed", () => {
   it("studi kasus proyek opsional, tetapi wajib dwibahasa bila diisi", async () => {
     const rows = await anon((q) =>
       q<{ slug: string; problem: unknown; my_role: unknown; outcome: unknown }>(
-        "select slug, problem, my_role, outcome from public.projects where slug in ('ekost', 'borrowit') order by slug",
+        "select slug, problem, my_role, outcome from public.projects where slug in ('borrowit', 'ekost', 'melodean') order by slug",
       ),
     );
-    expect(rows[0]).toMatchObject({
-      slug: "borrowit",
+    for (const slug of ["borrowit", "ekost"]) {
+      const row = rows.find((item) => item.slug === slug);
+      expect(row?.problem).toMatchObject({ id: expect.any(String) });
+      expect(row?.my_role).toMatchObject({ en: expect.any(String) });
+      expect(row?.outcome).toMatchObject({ id: expect.any(String) });
+    }
+    expect(rows.find((item) => item.slug === "melodean")).toMatchObject({
       problem: null,
       my_role: null,
       outcome: null,
     });
-    expect(rows[1]?.slug).toBe("ekost");
-    expect(rows[1]?.problem).toMatchObject({ id: expect.any(String) });
-    expect(rows[1]?.my_role).toMatchObject({ en: expect.any(String) });
 
     await expect(
       as("service_role", {}, (q) =>
-        q("update public.projects set outcome = $1 where slug = 'borrowit'", [
+        q("update public.projects set outcome = $1 where slug = 'melodean'", [
           JSON.stringify({ id: "Hanya Indonesia" }),
         ]),
       ),
