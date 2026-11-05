@@ -74,6 +74,7 @@ export const Bilingual = ({
   rows,
   maxLength,
   hint,
+  optional = false,
 }: {
   name: string;
   idPrefix?: string;
@@ -84,6 +85,8 @@ export const Bilingual = ({
   rows?: number;
   maxLength: number;
   hint?: string;
+  /** Boleh dikosongkan (keduanya); bila diisi, server mewajibkan dua bahasa. */
+  optional?: boolean;
 }) => (
   <fieldset className="grid grid-cols-1 gap-4 md:grid-cols-2">
     <legend className="sr-only">{label}</legend>
@@ -99,7 +102,7 @@ export const Bilingual = ({
         rows={rows}
         maxLength={maxLength}
         hint={hint}
-        required
+        required={!optional}
       />
     ))}
   </fieldset>

@@ -17,6 +17,40 @@ import { getProject, getProjects } from "@/lib/data/content";
 import { pick } from "@/lib/localized";
 import { localeAlternates, openGraphFor, SITE_NAME } from "@/lib/seo";
 
+/** Bagian studi kasus (masalah, peran, hasil); tidak dirender bila belum diisi. */
+const CaseStudySection = ({
+  id,
+  title,
+  text,
+  highlight = false,
+}: {
+  id: string;
+  title: string;
+  text: string | null;
+  highlight?: boolean;
+}) =>
+  text ? (
+    <section
+      aria-labelledby={id}
+      className={
+        highlight
+          ? "relative overflow-hidden rounded-card glass p-6"
+          : undefined
+      }
+    >
+      {highlight ? (
+        <span
+          aria-hidden="true"
+          className="absolute inset-y-0 left-0 w-1 bg-gradient-primary"
+        />
+      ) : null}
+      <h2 id={id} className="mb-3 text-xl font-semibold">
+        {title}
+      </h2>
+      <p className="text-lead text-muted">{text}</p>
+    </section>
+  ) : null;
+
 export async function generateStaticParams() {
   const projects = await getProjects();
   return projects.map((project) => ({ slug: project.slug }));
@@ -181,6 +215,12 @@ export default async function ProjectPage({
             </p>
           </section>
 
+          <CaseStudySection
+            id="problem-title"
+            title={t("problem")}
+            text={project.problem && pick(project.problem, locale)}
+          />
+
           <section aria-labelledby="steps-title">
             <h2 id="steps-title" className="mb-5 text-xl font-semibold">
               {t("steps")}
@@ -202,6 +242,18 @@ export default async function ProjectPage({
               ))}
             </ol>
           </section>
+
+          <CaseStudySection
+            id="role-title"
+            title={t("myRole")}
+            text={project.my_role && pick(project.my_role, locale)}
+          />
+          <CaseStudySection
+            id="outcome-title"
+            title={t("outcome")}
+            text={project.outcome && pick(project.outcome, locale)}
+            highlight
+          />
         </div>
 
         <aside className="flex flex-col gap-8">

@@ -44,7 +44,11 @@ test.describe("beranda", () => {
     await projects.focus();
     await page.keyboard.press("ArrowRight");
     await expect(page.getByRole("tab", { name: "Certificates" })).toBeFocused();
-    await expect(page.getByText("Segera hadir")).toBeVisible();
+    await expect(
+      page
+        .getByRole("tabpanel", { name: "Certificates" })
+        .getByText("Sertifikat Magang (Praktik Kerja Lapangan)"),
+    ).toBeVisible();
     await page.keyboard.press("End");
     await expect(page.getByRole("tab", { name: "Tech Stack" })).toHaveAttribute(
       "aria-selected",
@@ -114,6 +118,35 @@ test.describe("navigasi", () => {
 });
 
 test.describe("detail proyek", () => {
+  test("studi kasus tampil dalam dua bahasa bila diisi", async ({ page }) => {
+    await page.goto("/id/projects/ekost");
+    const headings = page.getByRole("heading", { level: 2 });
+    await expect(headings).toContainText([
+      "Deskripsi",
+      "Masalah",
+      "Langkah Pengerjaan",
+      "Peran Saya",
+      "Hasil",
+    ]);
+    await expect(
+      page.getByText("Project Manager sekaligus Backend Developer"),
+    ).toBeVisible();
+
+    await page.goto("/en/projects/ekost");
+    await expect(
+      page.getByRole("heading", { level: 2, name: "My Role" }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Project Manager and Backend Developer"),
+    ).toBeVisible();
+
+    // Proyek tanpa studi kasus tidak menampilkan bagian kosong.
+    await page.goto("/id/projects/borrowit");
+    await expect(
+      page.getByRole("heading", { level: 2, name: "Masalah" }),
+    ).toHaveCount(0);
+  });
+
   test("menampilkan isi lengkap dan bisa kembali", async ({ page }) => {
     await page.goto("/id/projects/borrowit");
     await expect(

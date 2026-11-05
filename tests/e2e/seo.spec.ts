@@ -53,7 +53,9 @@ test.describe("SEO", () => {
       .locator('meta[property="og:image"]')
       .getAttribute("content");
     expect(image).toMatch(/\/id\/projects\/borrowit\/opengraph-image/);
-    const response = await request.get(image!);
+    // og:image memakai NEXT_PUBLIC_SITE_URL; ambil path-nya dari server yang diuji.
+    const { pathname, search } = new URL(image!);
+    const response = await request.get(pathname + search);
     expect(response.status()).toBe(200);
     expect(response.headers()["content-type"]).toBe("image/png");
   });

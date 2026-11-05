@@ -29,6 +29,9 @@ export type ProjectFormDefaults = {
   demo_url: string;
   repo_url: string;
   is_published: boolean;
+  problem: { id: string; en: string };
+  my_role: { id: string; en: string };
+  outcome: { id: string; en: string };
 };
 
 export const ProjectForm = ({
@@ -162,6 +165,44 @@ export const ProjectForm = ({
           rows={5}
           maxLength={4000}
           hint="Satu fitur per baris. Jumlah baris ID dan EN harus sama."
+        />
+      </Section>
+
+      <Section title="Studi kasus (opsional)">
+        <p className="text-sm text-muted">
+          Tampil di halaman proyek sebagai Masalah, Peran Saya, dan Hasil;
+          proses pengerjaannya diisi lewat Langkah pengerjaan. Kosongkan bagian
+          yang tidak dipakai; bila diisi, isi dalam dua bahasa.
+        </p>
+        <Bilingual
+          name="problem"
+          label="Masalah"
+          value={defaults.problem}
+          errors={errors}
+          multiline
+          rows={5}
+          maxLength={2000}
+          optional
+        />
+        <Bilingual
+          name="my_role"
+          label="Peran saya"
+          value={defaults.my_role}
+          errors={errors}
+          multiline
+          rows={3}
+          maxLength={2000}
+          optional
+        />
+        <Bilingual
+          name="outcome"
+          label="Hasil"
+          value={defaults.outcome}
+          errors={errors}
+          multiline
+          rows={4}
+          maxLength={2000}
+          optional
         />
       </Section>
 

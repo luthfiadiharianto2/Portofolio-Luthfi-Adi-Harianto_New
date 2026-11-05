@@ -23,6 +23,8 @@ export type SeedProject = {
   demoUrl?: string;
   images: { path: string; alt: Localized }[];
   steps: { title: Localized; description: Localized }[];
+  /** Studi kasus (opsional): masalah, peran saya, dan hasil. Proses = steps. */
+  caseStudy?: { problem: Localized; myRole: Localized; outcome: Localized };
 };
 
 const same = (text: string): Localized => ({ id: text, en: text });
@@ -190,8 +192,8 @@ export const projects: SeedProject[] = [
     color: "#0C1B3A",
     thumbnail: "/images/projects/ekost/thumbnail.png",
     tagline: {
-      id: "Manajemen Kost dengan Denah 2.5D/3D Interaktif",
-      en: "Boarding House Management with Interactive 2.5D/3D Floor Plans",
+      id: "Platform Manajemen Kost dengan Denah 2.5D/3D Interaktif",
+      en: "Boarding House Management Platform with Interactive 2.5D/3D Floor Plans",
     },
     description: {
       id: "Platform web manajemen kost untuk pemilik dan penyewa. Pemilik mengelola kamar dan tipe kamar, mengundang penyewa lewat link undangan, lalu menempatkan penyewa ke kamar; penyewa melihat informasi kamarnya, tagihan, dan mengirim aduan. Fitur unggulan Denah Kost menampilkan bangunan dalam 2.5D, 3D, atau 2D (hijau = kosong, merah = terisi) yang berubah secara realtime, lengkap dengan editor denah otomatis. Versi awal dibangun dengan Laravel dan MySQL, lalu dimigrasikan ke React dan Supabase (Auth, Postgres dengan Row Level Security, Edge Functions, Realtime) dan di-deploy di Vercel.",
@@ -258,22 +260,22 @@ export const projects: SeedProject[] = [
           en: "Requirements & First Version",
         },
         description: {
-          id: "Menganalisis kebutuhan pemilik dan penyewa kost, merancang alur serta antarmuka, lalu membangun versi pertama dengan Laravel dan MySQL.",
-          en: "Analyzing owner and tenant needs, designing the flows and interface, then building the first version with Laravel and MySQL.",
+          id: "Sebagai project manager, memimpin riset kebutuhan pemilik & penyewa, menyusun alur kerja, dan mengoordinasikan tim untuk membangun versi awal dengan Laravel + MySQL.",
+          en: "As project manager, led research into owner and tenant needs, mapped out the workflow, and coordinated the team to build the first version with Laravel + MySQL.",
         },
       },
       {
         title: { id: "Migrasi ke Supabase", en: "Migration to Supabase" },
         description: {
-          id: "Memindahkan backend ke Supabase: skema Postgres dengan Row Level Security dan fungsi RPC, autentikasi email dan OTP, Storage untuk foto profil, serta Edge Functions untuk undangan penyewa dengan pembatasan jumlah request.",
-          en: "Moving the backend to Supabase: a Postgres schema with Row Level Security and RPC functions, email and OTP authentication, Storage for profile photos, and Edge Functions for tenant invitations with rate limiting.",
+          id: "Mengembangkan sisi backend: migrasi ke Supabase (Postgres dengan Row Level Security, autentikasi email/OTP, storage foto profil, dan Edge Functions untuk undangan penyewa).",
+          en: "Developed the backend: migrated to Supabase (Postgres with Row Level Security, email/OTP authentication, profile photo storage, and Edge Functions for tenant invitations).",
         },
       },
       {
         title: { id: "Frontend React", en: "React Frontend" },
         description: {
-          id: "Menyambungkan antarmuka React dan TypeScript ke Supabase tanpa mengubah identitas desain, lalu merapikan ukuran tampilan serta kenyamanan scroll di HP, tablet, dan desktop.",
-          en: "Connecting the React and TypeScript interface to Supabase while keeping the design identity, then refining sizing and scrolling comfort on phones, tablets, and desktops.",
+          id: "Mengoordinasikan pengembangan frontend React + TypeScript agar terhubung mulus dengan backend, dengan tampilan responsif di mobile, tablet, dan desktop.",
+          en: "Coordinated React + TypeScript frontend development so it connects seamlessly to the backend, with a responsive layout on mobile, tablet, and desktop.",
         },
       },
       {
@@ -282,18 +284,32 @@ export const projects: SeedProject[] = [
           en: "2.5D/3D Floor Plan Feature",
         },
         description: {
-          id: "Membangun denah interaktif dengan Three.js (React Three Fiber): mode 2.5D, 3D, dan 2D, pemilih lantai, sorotan kamar milik penyewa, pembaruan status realtime, dan editor denah dengan preset bentuk bangunan otomatis.",
-          en: "Building an interactive floor plan with Three.js (React Three Fiber): 2.5D, 3D, and 2D modes, a floor selector, highlighting the tenant's own room, realtime status updates, and an editor with automatic building-shape presets.",
+          id: "Mengawal pengembangan fitur unggulan: denah interaktif 2.5D/3D yang menampilkan status kamar kosong (hijau) dan terisi (merah) secara real-time.",
+          en: "Oversaw development of the flagship feature: an interactive 2.5D/3D floor plan that shows vacant (green) and occupied (red) rooms in real time.",
         },
       },
       {
         title: { id: "Pengujian & Deployment", en: "Testing & Deployment" },
         description: {
-          id: "Menguji alur end-to-end dengan Playwright, logika denah dengan Vitest, dan kebijakan keamanan RLS di database; deploy otomatis ke Vercel dari GitHub.",
-          en: "End-to-end flow testing with Playwright, floor plan logic tests with Vitest, and RLS security policy checks in the database; automatic deployment to Vercel from GitHub.",
+          id: "Memastikan testing menyeluruh (Playwright, Vitest, RLS) dan proses deployment otomatis ke Vercel berjalan lancar.",
+          en: "Ensured thorough testing (Playwright, Vitest, RLS) and a smooth automated deployment to Vercel.",
         },
       },
     ],
+    caseStudy: {
+      problem: {
+        id: "Sistem pengelolaan kost di Purwokerto kebanyakan masih tradisional: pemilik mencatat data kamar dan penyewa secara manual, tanpa gambaran jelas kamar mana yang kosong atau sudah terisi, dan penyewa harus menemui pemilik langsung untuk urusan tagihan atau komplain. E-Kost Manager dibuat untuk membawa pengelolaan kost ke sistem yang lebih modern dan digital.",
+        en: "Most boarding houses in Purwokerto are still managed the traditional way: owners record room and tenant data by hand, with no clear picture of which rooms are vacant or occupied, and tenants have to meet the owner in person to deal with bills or complaints. E-Kost Manager was built to bring boarding house management into a more modern, digital system.",
+      },
+      myRole: {
+        id: "Project Manager sekaligus Backend Developer: memimpin koordinasi tim dari riset hingga rilis, sekaligus membangun sistem backend, yaitu database, autentikasi, keamanan data, dan API.",
+        en: "Project Manager and Backend Developer: led team coordination from research to release, while building the backend system, namely the database, authentication, data security, and APIs.",
+      },
+      outcome: {
+        id: "Platform yang membawa pengelolaan kost dari cara manual ke sistem digital: pemilik bisa memantau kondisi kamar secara visual lewat denah 2.5D/3D yang menampilkan status kosong/terisi secara real-time, sementara penyewa bisa cek tagihan dan mengajukan komplain sendiri tanpa harus datang langsung ke pemilik.",
+        en: "A platform that moves boarding house management from manual work to a digital system: owners can monitor rooms visually through a 2.5D/3D floor plan that shows vacant/occupied status in real time, while tenants can check their bills and file complaints on their own without visiting the owner in person.",
+      },
+    },
   },
   {
     slug: "melodean",

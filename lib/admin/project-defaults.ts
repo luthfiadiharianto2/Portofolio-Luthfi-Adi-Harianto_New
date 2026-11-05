@@ -24,6 +24,9 @@ export const newProjectDefaults = (): ProjectFormDefaults => ({
   demo_url: "",
   repo_url: "",
   is_published: false,
+  problem: EMPTY,
+  my_role: EMPTY,
+  outcome: EMPTY,
 });
 
 export const projectDefaults = (
@@ -46,4 +49,7 @@ export const projectDefaults = (
   demo_url: project.demo_url ?? "",
   repo_url: project.repo_url ?? "",
   is_published: project.is_published,
+  problem: localizedOf(project.problem),
+  my_role: localizedOf(project.my_role),
+  outcome: localizedOf(project.outcome),
 });

@@ -22,6 +22,9 @@ const text = (label: string, max: number) =>
     .min(1, `${label} wajib diisi.`)
     .max(max, `${label} maksimal ${max} karakter.`);
 
+const optionalText = (label: string, max: number) =>
+  z.string().trim().max(max, `${label} maksimal ${max} karakter.`);
+
 const lines = (value: string) =>
   value
     .split(/\r?\n/)
@@ -87,7 +90,22 @@ const projectFieldsSchema = z.object({
   demo_url: optionalHttps("URL demo"),
   repo_url: optionalHttps("URL repositori"),
   is_published: z.boolean(),
+  problem_id: optionalText("Masalah (ID)", 2000),
+  problem_en: optionalText("Masalah (EN)", 2000),
+  my_role_id: optionalText("Peran saya (ID)", 2000),
+  my_role_en: optionalText("Peran saya (EN)", 2000),
+  outcome_id: optionalText("Hasil (ID)", 2000),
+  outcome_en: optionalText("Hasil (EN)", 2000),
 });
+
+/** Bagian studi kasus: opsional, tetapi bila diisi harus dalam dua bahasa. */
+export const CASE_STUDY_FIELDS = [
+  ["problem", "Masalah"],
+  ["my_role", "Peran saya"],
+  ["outcome", "Hasil"],
+] as const;
+
+const pair = (id: string, en: string) => (id && en ? { id, en } : null);
 
 export const projectFormSchema = projectFieldsSchema
   .refine((value) => isAllowedProjectImage(value.thumbnail, value.id), {
@@ -98,6 +116,18 @@ export const projectFormSchema = projectFieldsSchema
   .refine((value) => value.features_id.length === value.features_en.length, {
     path: ["features_en"],
     message: "Jumlah baris fitur ID dan EN harus sama.",
+  })
+  .superRefine((value, ctx) => {
+    for (const [key, label] of CASE_STUDY_FIELDS) {
+      const id = value[`${key}_id`];
+      const en = value[`${key}_en`];
+      if (Boolean(id) === Boolean(en)) continue;
+      ctx.addIssue({
+        code: "custom",
+        path: [id ? `${key}_en` : `${key}_id`],
+        message: `${label} harus diisi dalam dua bahasa, atau kosongkan keduanya.`,
+      });
+    }
   })
   .transform((value) => ({
     id: value.id,
@@ -114,6 +144,9 @@ export const projectFormSchema = projectFieldsSchema
     demo_url: value.demo_url,
     repo_url: value.repo_url,
     is_published: value.is_published,
+    problem: pair(value.problem_id, value.problem_en),
+    my_role: pair(value.my_role_id, value.my_role_en),
+    outcome: pair(value.outcome_id, value.outcome_en),
   }));
 export type ProjectInput = z.output<typeof projectFormSchema>;
 

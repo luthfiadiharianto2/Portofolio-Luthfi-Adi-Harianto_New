@@ -32,6 +32,10 @@ const projectDetailSchema = projectSummarySchema.extend({
   features: localizedListSchema,
   demo_url: z.string().nullable(),
   repo_url: z.string().nullable(),
+  // Studi kasus opsional (masalah, peran saya, hasil); proses = project_steps.
+  problem: localizedSchema.nullable(),
+  my_role: localizedSchema.nullable(),
+  outcome: localizedSchema.nullable(),
   project_images: z.array(
     z.object({
       path: z.string(),
@@ -107,7 +111,7 @@ export const getProject = async (
     await createPublicClient()
       .from("projects")
       .select(
-        `${SUMMARY_COLUMNS}, description, features, demo_url, repo_url,
+        `${SUMMARY_COLUMNS}, description, features, demo_url, repo_url, problem, my_role, outcome,
          project_images (path, alt, sort_order),
          project_steps (title, description, sort_order)`,
       )

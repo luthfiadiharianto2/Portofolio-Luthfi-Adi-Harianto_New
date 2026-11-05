@@ -142,3 +142,31 @@ describe("urutan admin", () => {
     ]);
   });
 });
+
+describe("studi kasus proyek", () => {
+  it("kosong menjadi null", () => {
+    expect(parse(form()).data).toMatchObject({
+      problem: null,
+      my_role: null,
+      outcome: null,
+    });
+  });
+
+  it("diisi dua bahasa menjadi teks dwibahasa", () => {
+    const result = parse(
+      form({ problem_id: "Pencatatan manual", problem_en: "Manual records" }),
+    );
+    expect(result.data?.problem).toEqual({
+      id: "Pencatatan manual",
+      en: "Manual records",
+    });
+  });
+
+  it("menolak bila hanya satu bahasa yang diisi", () => {
+    const result = parse(form({ outcome_id: "Pengelolaan jadi digital" }));
+    expect(fieldErrorsOf(result.error!)).toEqual({
+      outcome_en:
+        "Hasil harus diisi dalam dua bahasa, atau kosongkan keduanya.",
+    });
+  });
+});

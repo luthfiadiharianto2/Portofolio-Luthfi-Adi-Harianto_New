@@ -59,7 +59,7 @@ export const getProjectForEdit = async (id: string) => {
   const { data: project, error } = await supabase
     .from("projects")
     .select(
-      "id, slug, title, category, color, thumbnail, label, tagline, description, features, technologies, demo_url, repo_url, is_published, project_images (id, path, alt, sort_order), project_steps (id, title, description, sort_order)",
+      "id, slug, title, category, color, thumbnail, label, tagline, description, features, technologies, demo_url, repo_url, is_published, problem, my_role, outcome, project_images (id, path, alt, sort_order), project_steps (id, title, description, sort_order)",
     )
     .eq("id", id)
     .maybeSingle();

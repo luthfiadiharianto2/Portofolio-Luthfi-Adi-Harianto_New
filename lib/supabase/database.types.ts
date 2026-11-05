@@ -305,6 +305,9 @@ export type Database = {
           id: string;
           is_published: boolean;
           label: Json;
+          my_role: Json | null;
+          outcome: Json | null;
+          problem: Json | null;
           repo_url: string | null;
           slug: string;
           sort_order: number;
@@ -324,6 +327,9 @@ export type Database = {
           id?: string;
           is_published?: boolean;
           label: Json;
+          my_role?: Json | null;
+          outcome?: Json | null;
+          problem?: Json | null;
           repo_url?: string | null;
           slug: string;
           sort_order?: number;
@@ -343,6 +349,9 @@ export type Database = {
           id?: string;
           is_published?: boolean;
           label?: Json;
+          my_role?: Json | null;
+          outcome?: Json | null;
+          problem?: Json | null;
           repo_url?: string | null;
           slug?: string;
           sort_order?: number;
